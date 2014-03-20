@@ -1,0 +1,51 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int i,j,l;
+	int a=0;
+	int num[10000],prime[10000];
+	int primefactors[10000];
+	for(i=0;i<10000;i++)
+	{
+		num[i]=i+2;
+	}
+	for(i=0;i<10000;i++)
+	{
+		if(num[i]!=-1)
+		{
+			for(j=2*num[i]-2;j<10000;j+=num[i])
+			{
+				num[j]=-1;
+			}
+		}
+	}
+	j=0;
+	for(i=0;i<10000;i++)
+	{
+		if(num[i]!=-1)
+		{
+			prime[j++]=num[i];
+		}
+	}
+	//the sieve is complete at this point.We have calculated the primes in first 10000 numbers and stored in prime array.
+	for(l=2;l<=100000;l++)	
+	{
+		for(int p=0;p<j;p++) //accessing the prime list.
+		{
+			if(l%prime[p]==0)
+			{
+				primefactors[a++]=prime[p];
+			}
+		}
+		cout<<l<<": ";
+		for(int p=0;p<a;p++)
+		{
+			cout<<primefactors[p]<<" ";
+		}
+		cout<<endl;
+	}
+	return 0;
+}

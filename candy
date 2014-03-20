@@ -1,0 +1,46 @@
+#include <iostream>
+
+using namespace std;
+
+int main ()
+{
+	int n;
+	int sum;
+	int a[10001];
+	int count;
+    for(;(cin>>n)>0&&(n!=-1);) //new method to use loop without consuming memory.
+    {	
+    	count=0;
+    	sum=0;
+    	for(int i=0;i<n;i++) //input.
+    	{
+    		cin>>a[i];
+    	}
+    	for(int i=0;i<n;i++)
+    	{
+    		sum+=a[i];		//sum.
+    	}
+    	if((sum%n)!=0)
+    	{
+    		cout<<-1<<endl;
+    	}
+    	else
+    	{
+    		for(int i=0;i<n;i++)
+    		{
+    			int avg=sum/n;
+    			if((avg)>a[i])
+    			{
+    				count+=avg-a[i];
+    			}
+    		
+    		}
+
+    	}
+    	if((sum%n)==0)
+    	{
+    		cout<<count<<endl;
+    	}
+    }
+    return 0;
+}

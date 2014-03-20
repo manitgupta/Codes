@@ -1,0 +1,31 @@
+#include <iostream>
+
+using namespace std;
+
+int main ()
+{
+	float c[100];
+	float sum;
+	float n;
+	int count;
+	int i=-1;
+	do
+	{
+		i++;
+		cin>>c[i];
+	}while(c[i]!=0.00);
+	for(int k=0;k<i;k++)
+	{										//solved and submitted.
+		n=2;
+		sum=0;
+		count=0;
+		while(sum<c[k])
+		{
+			sum=sum+(1/n);
+			n++;
+			count++;
+		} // when sum exceeds c, the loop stops.
+	cout<<count<<" card(s)"<<endl;
+	}
+return 0;
+}

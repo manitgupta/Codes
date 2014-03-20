@@ -1,0 +1,62 @@
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+int main ()
+{
+    int t,n;
+    int credit[100];
+    char grade[100];
+    int gradepoints[100];
+    float gpa;                                          //Solved and Submitted.
+    float gpaf;
+    float sum1,sum2;
+    cin>>t;
+	for(int i=0;i<t;i++)
+    {
+    	sum1=0;
+    	sum2=0;
+    	cin>>n;
+    	for(int j=0;j<n;j++)
+    	{
+    		cin>>credit[j]>>grade[j];
+    	}
+    	for(int l=0;l<n;l++)
+    	{
+    		if(grade[l]=='S')
+    		{
+    			gradepoints[l]=10;
+    		}
+    		if(grade[l]=='A')
+    		{
+    			gradepoints[l]=9;
+    		}
+    		if(grade[l]=='B')
+    		{
+    			gradepoints[l]=8;
+    		}
+    		if(grade[l]=='C')
+    		{
+    			gradepoints[l]=7;
+    		}
+    		if(grade[l]=='D')
+    		{
+    			gradepoints[l]=6;
+    		}
+    		if(grade[l]=='E')
+    		{
+    			gradepoints[l]=5;
+    		}
+    	}
+    	for(int k=0;k<n;k++)
+    	{
+    		sum1+=credit[k]*gradepoints[k];
+    		sum2+=credit[k];
+    	}
+    	gpa=sum1/sum2;
+    	gpaf = (nearbyint(gpa*100))/100;
+    	cout<<setprecision(2)<<fixed<<gpaf<<endl;
+    }
+    return 0;
+}
