@@ -16,8 +16,8 @@ void printData(int *a,int size)
 {
 	FILE *x;
 	int i;
-	x=fopen("output.txt","w+");
-	for(i=0;i<=size-1;i++)
+	x=fopen("output.txt","w+")
+;	for(i=0;i<=size-1;i++)
 	{
 		fprintf(x,"%d\n",*(a+i));
 	}
