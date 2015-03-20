@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Insertion Sort practice
+/*
+	Author : Manit Gupta
+	Program : Insertion Sort implementation on Integers.
+*/
 #define MAX 100
 
 int* insertion_sort(int Arr[], int n)
