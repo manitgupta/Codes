@@ -115,7 +115,7 @@ void insertion_sort()
 			temptempi = tempi;							//Exclusive to this. Keep track of tempi in case become NULL by tempi = tempi->prev
 			tempi = tempi->prev;						// i--
 		}
-		if(temptempi->prev == NULL)
+		if(tempi == NULL)
 		{
 			temptempi->data = key->data;
 		}
@@ -135,5 +135,6 @@ int main()
 	insertion_sort();
 	//printf("Hello!\n");
 	displayOnTerminal();
+	printList("outputSorted.txt");
 	return 0;
 }
