@@ -5,7 +5,7 @@
 #include "htops.h"
 
 #define PRIME 107
-#define SIZE 100
+#define SIZE 1000
 
 Hash_item *Ht[SIZE];
 
@@ -75,7 +75,7 @@ int findEntry(int htsize,int cust_id, char* item_code)
 	Item *temp = Ht[key1]->Hid[key2]->Head;
 
 	if(temp!=NULL)
-	{
+	{	
 		while(temp!=NULL)
 		{
 			if(strcmp(temp->item_code,item_code) == 0 && temp->cust_id == cust_id)
@@ -122,7 +122,7 @@ void printHT(int htsize, FILE *fp)
 				{
 					while(temp!=NULL)
 					{
-						printf("Key1= %d Key2=%d Cust_id=%d Item_Code=%s Cost_Item=%d\n",i,j,temp->cust_id,temp->item_code,temp->cost_item);
+						fprintf(fp,"Key1= %d Key2=%d Cust_id=%d Item_Code=%s Cost_Item=%d\n",i,j,temp->cust_id,temp->item_code,temp->cost_item);
 						temp = temp->next;
 					}
 				}
