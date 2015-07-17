@@ -1,5 +1,5 @@
 all: merge quick insert
-	gcc -o driver -pg driver.c mergesort.o insertionsort.c quicksort.o
+	gcc -o driver -pg driver.c mergesort.o insertionsort.o quicksort.o
 merge: mergesort.c mergesort.h
 	gcc -c mergesort.c
 quick: quicksort.c quicksort.h

@@ -5,7 +5,7 @@
 
 void quicksort(int *a, int p, int r)
 {
-	int temp,q,j,x,i;				//x is the pivot, make it equal to the last element.
+	int temp,q,j,x,i;				//x is the pivot, make it equal to the last element. //a is the input array. 
 	if (p < r)
 	{
 		x = a[r];	//Define the pivot
