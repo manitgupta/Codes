@@ -71,11 +71,11 @@ void InsertinLinkedList(listnode **head, int data)		//Inserting at beginning. Fu
 int main()
 {
 
-	listnode *head = NULL;
-	InsertinLinkedList(&head,5); //address of the head pointer is passed, this is call by reference.
-	InsertinLinkedList(&head,8);
+	listnode *head = NULL;			//if only head, is passed and not &head, then since head is a pointer to a structure, head can be used to change values of the 
+	InsertinLinkedList(&head,5); 	//variables present inside the structure, but head itself will keep pointing to the same structure. In order to change the 
+	InsertinLinkedList(&head,8);	//structure (node, here) to which head points, we need to pass the pointer to the pointer/address of the pointer.
 	InsertinLinkedList(&head,10);
-	InsertinLinkedList(&head,15);
+	InsertinLinkedList(&head,15);	//address of the head pointer is passed, this is call by reference.
 	printLinkedList(head);
 	head = RecurseReverse(head);
 	printLinkedList(head);
