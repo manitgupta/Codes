@@ -7,20 +7,20 @@
 
 using namespace std;
 
-
-void PreOrder(binarytreenode *root)
+void InOrder(binarytreenode *root)
 {
 	if(root)
 	{
+		InOrder(root->left);
 		printf(" %d ",root->data);
-		PreOrder(root->left);
-		PreOrder(root->right);
+		InOrder(root->right);
 	}
 }
+
 #ifdef _DEBUG
 int main()
 {
-  /* Constructed binary tree is
+	/* Constructed binary tree is
           10
         /   \
       8      6
@@ -33,7 +33,7 @@ int main()
   root->left->left  = newNode(3);
   root->left->right = newNode(5);
   root->right->left = newNode(2);
-  PreOrder(root);
+  InOrder(root);
   printf("\n");
   return 0;
 }

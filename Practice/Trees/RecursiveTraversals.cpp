@@ -3,10 +3,9 @@
 #include <cstdio>
 #include "BinaryTreeNode.h"
 
-#define _DEBUG
+// #define _DEBUG
 
 using namespace std;
-
 
 void PreOrder(binarytreenode *root)
 {
@@ -17,6 +16,27 @@ void PreOrder(binarytreenode *root)
 		PreOrder(root->right);
 	}
 }
+
+void InOrder(binarytreenode *root)
+{
+	if(root)
+	{
+		InOrder(root->left);
+		printf(" %d ",root->data);
+		InOrder(root->right);
+	}
+}
+
+void PostOrder(binarytreenode *root)
+{
+	if(root)
+	{
+		PostOrder(root->left);
+		PostOrder(root->right);
+		printf(" %d ",root->data);
+	}
+}
+
 #ifdef _DEBUG
 int main()
 {
@@ -33,7 +53,7 @@ int main()
   root->left->left  = newNode(3);
   root->left->right = newNode(5);
   root->right->left = newNode(2);
-  PreOrder(root);
+  //
   printf("\n");
   return 0;
 }
