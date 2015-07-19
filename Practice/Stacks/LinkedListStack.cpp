@@ -2,6 +2,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+#define _DEBUG			//Comment to disable Debugging mode.
+
 using namespace std;
 
 struct ListNode
@@ -40,15 +42,17 @@ int Pop(stack **top)	//parameter is a pointer to a pointer
 	return temp->data;
 }
 //Test Driver Program to check functionality. 
-// int main()
-// {
-// 	stack *top = CreateStack();
-// 	Push(&top,3);	//A pointer to the structure created is passed. This pointer is used to change values of variables
-// 	Push(&top,5);	// present inside the structure.stat
-// 	Push(&top,7);
-// 	printf("%d Popped\n",Pop(&top));
-// 	printf("%d Popped\n",Pop(&top));
-// 	printf("%d Popped\n",Pop(&top));
-// 	printf("%d Popped\n",Pop(&top));
-// 	return 0;
-// }
+#ifdef _DEBUG
+int main()
+{
+	stack *top = CreateStack();
+	Push(&top,3);	//A pointer to the structure created is passed. This pointer is used to change values of variables
+	Push(&top,5);	// present inside the structure.stat
+	Push(&top,7);
+	printf("%d Popped\n",Pop(&top));
+	printf("%d Popped\n",Pop(&top));
+	printf("%d Popped\n",Pop(&top));
+	printf("%d Popped\n",Pop(&top));
+	return 0;
+}
+#endif

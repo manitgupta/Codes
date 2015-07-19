@@ -2,6 +2,8 @@
 #include <cstdio>
 #include <cstdlib>
 
+#define _DEBUG			//Comment to disable Debugging mode.
+
 using namespace std;
 
 struct ArrayStack 		
@@ -78,6 +80,7 @@ void DeleteStack(arraystack *S)
 	}
 }
 //driver to test. Comment if file is to be included.
+#ifdef _DEBUG
 int main()
 {
 	arraystack *S = CreateStack();
@@ -91,3 +94,4 @@ int main()
 	printf("%d Popped\n",Pop(S));
 	return 0;
 }
+#endif

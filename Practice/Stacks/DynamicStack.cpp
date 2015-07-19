@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <cstdio>
 
+#define _DEBUG			//Comment to disable Debugging mode.
 
 using namespace std;
 
@@ -45,7 +46,7 @@ int CurrentSizeofStack(dynarraystack *S)
 void DoubleStack(dynarraystack *S)
 {
 	S->capacity*=2;
-	S->array = realloc(S->array,S->capacity);
+	S->array = (int*)realloc(S->array,S->capacity);
 }
 
 void Push(dynarraystack *S, int data)
@@ -74,17 +75,20 @@ void DeleteStack(dynarraystack *S)
 		free(S);
 	}
 }
+
+#ifdef _DEBUG
 //test driver program to check functionality.
-// int main()
-// {
-// 	dynarraystack *S = CreateStack();
-// 	Push(S,3);	//A pointer to the structure created is passed. This pointer is used to change values of variables
-// 	Push(S,5);	// present inside the structure.
-// 	Push(S,7);
-// 	printf("Current Size of Stack: %d\n",CurrentSizeofStack(S));
-// 	printf("%d Popped\n",Pop(S));
-// 	printf("%d Popped\n",Pop(S));
-// 	printf("%d Popped\n",Pop(S));
-// 	printf("%d Popped\n",Pop(S));
-// 	return 0;
-// }
+int main()
+{
+	dynarraystack *S = CreateStack();
+	Push(S,3);	//A pointer to the structure created is passed. This pointer is used to change values of variables
+	Push(S,5);	// present inside the structure.
+	Push(S,7);
+	printf("Current Size of Stack: %d\n",CurrentSizeofStack(S));
+	printf("%d Popped\n",Pop(S));
+	printf("%d Popped\n",Pop(S));
+	printf("%d Popped\n",Pop(S));
+	printf("%d Popped\n",Pop(S));
+	return 0;
+}
+#endif
