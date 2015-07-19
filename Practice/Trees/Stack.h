@@ -53,4 +53,9 @@ struct Node* Pop(struct Stack* stack)
         return NULL;
     return stack->array[stack->top--];
 }
+
+struct Node* Top(struct Stack* stack)
+{
+    return stack->array[stack->top];
+}
  

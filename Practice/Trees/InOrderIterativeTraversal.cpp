@@ -5,22 +5,23 @@
 // Maximum stack size
 #define MAX_SIZE 100
  
+// A tree node
 
-// An iterative function to do pre order traversal of a given binary tree
-void preOrderIterative(struct Node* root)
+
+void InOrderIterative(struct Node* root)
 {
     struct Stack* S = createStack(10);
     while(1)
     {
         while(root)
         {
-            printf(" %d ",root->data);
             Push(S,root);
             root = root->left;
         }
         if(isEmpty(S))
             break;
         root = Pop(S);
+        printf(" %d ",root->data);
         root = root->right;
     }
 }
@@ -45,7 +46,7 @@ int main()
     root->left->right = newNode(5);
     root->right->left = newNode(6);
     root->right->right = newNode(7);
-    preOrderIterative(root);
+    InOrderIterative(root);
     printf("\n");
     return 0;
 }
