@@ -1,53 +1,66 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
-#include "Stack.h"
+#include <stack>
 
 #define _DEBUG
 
 using namespace std;
 
+struct Node
+{
+    int data;
+    struct Node *left, *right;
+};
+
+struct Node* newNode(int data)
+{
+    struct Node* node = (struct Node*) malloc(sizeof(struct Node));
+    node->data = data;
+    node->left = node->right = NULL;
+    return node;
+}
+ 
 
 void PostOrderIterative(struct Node* root)
 {
 	if(!root)
 		return;
-	struct Stack *S = createStack(10);
+	stack <struct Node*> S;
 	struct Node *previous = NULL;
-	Push(S,root);
-	while(!isEmpty(S))
+	S.push(root);
+	while(!S.empty())
 	{
-		struct Node *current = Pop(S);
-		Push(S,current);
+		struct Node *current = S.top();
 		// #ifdef _DEBUG
 		// printf(" %d ",current->data);
 		// #endif
 		if (previous == NULL || previous->left == current || previous->right == current)		//1st Case : Current is root or doing downwards in the tree.S
 		{
 			if(current->left)
-				Push(S,current->left);
+				S.push(current->left);
 			else if(current->right)
-				Push(S,current->right);
+				S.push(current->right);
 			else
 			{
 				printf(" %d ",current->data);
-				Pop(S);
+				S.pop();
 			}
 		}
 		else if(current->left == previous)				//traversing up from the left subtree. For Postorder, push right subtree first and if not there, then pop current.
 		{
 			if(current->right)
-				Push(S,current->right);
+				S.push(current->right);
 			else
 			{
 				printf(" %d ",current->data);
-				Pop(S);
+				S.pop();
 			}
 		}
 		else
 		{
 			printf(" %d ",current->data);				//traversing up from right subtree, means we are through with left and right both, then pop and process current.
-			Pop(S);
+			S.pop();
 		}
 		previous = current;
 	}
