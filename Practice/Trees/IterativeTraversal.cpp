@@ -7,6 +7,41 @@
 
 using namespace std;
 
+void InOrderIterative(struct Node* root)
+{
+    struct Stack* S = createStack(10);
+    while(1)
+    {
+        while(root)
+        {
+            Push(S,root);
+            root = root->left;
+        }
+        if(isEmpty(S))
+            break;
+        root = Pop(S);
+        printf(" %d ",root->data);
+        root = root->right;
+    }
+}
+
+void preOrderIterative(struct Node* root)
+{
+    struct Stack* S = createStack(10);
+    while(1)
+    {
+        while(root)
+        {
+            printf(" %d ",root->data);
+            Push(S,root);
+            root = root->left;
+        }
+        if(isEmpty(S))
+            break;
+        root = Pop(S);
+        root = root->right;
+    }
+}
 
 void PostOrderIterative(struct Node* root)
 {
