@@ -1,47 +1,73 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
+#include <cstdlib>
+#include <cstdio>
 #include "Stack.h"
- 
-// Maximum stack size
-#define MAX_SIZE 100
- 
-// An iterative function to do post order traversal of a given binary tree
-void postOrderIterative(struct Node* root)
+
+#define _DEBUG
+
+using namespace std;
+
+
+void PostOrderIterative(struct Node* root)
 {
-    // Create two stacks
-    struct Stack* s1 = createStack(MAX_SIZE);
-    struct Stack* s2 = createStack(MAX_SIZE);
- 
-    // Push root to first stack
-    Push(s1, root);
-    struct Node* node;
- 
-    // Run while first stack is not empty
-    while (!isEmpty(s1))
-    {
-        // Pop an item from s1 and Push it to s2
-        node = Pop(s1);
-        Push(s2, node);
- 
-        // Push left and right children of removed item to s1
-        if (node->left)
-            Push(s1, node->left);
-        if (node->right)
-            Push(s1, node->right);
-    }
- 
-    // Print all elements of second stack
-    while (!isEmpty(s2))
-    {
-        node = Pop(s2);
-        printf("%d ", node->data);
-    }
+	if(!root)
+		return;
+	struct Stack *S = createStack(10);
+	struct Node *previous = NULL;
+	Push(S,root);
+	while(!isEmpty(S))
+	{
+		struct Node *current = Pop(S);
+		Push(S,current);
+		// #ifdef _DEBUG
+		// printf(" %d ",current->data);
+		// #endif
+		if (previous == NULL || previous->left == current || previous->right == current)
+		{
+			if(current->left)
+				Push(S,current->left);
+			else if(current->right)
+				Push(S,current->right);
+			else
+			{
+				printf(" %d ",current->data);
+				Pop(S);
+			}
+		}
+		else if(current->left == previous)
+		{
+			if(current->right)
+				Push(S,current->right);
+			else
+			{
+				printf(" %d ",current->data);
+				Pop(S);
+			}
+		}
+		else
+		{
+			printf(" %d ",current->data);
+			Pop(S);
+		}
+		previous = current;
+	}
+
 }
- 
+
+
+
 // Driver program to test above functions
 int main()
 {
     // Let us construct the tree shown in above figure
+
+    /* Constructed binary tree is
+            1
+          /   \
+        2      3
+      /  \    / \
+    4     5  6   7
+  */
     struct Node* root = NULL;
     root = newNode(1);
     root->left = newNode(2);
@@ -50,8 +76,7 @@ int main()
     root->left->right = newNode(5);
     root->right->left = newNode(6);
     root->right->right = newNode(7);
- 
-    postOrderIterative(root);
- 
+    PostOrderIterative(root);
+    printf("\n");
     return 0;
 }
