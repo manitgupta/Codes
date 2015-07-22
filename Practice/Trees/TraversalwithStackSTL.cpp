@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <stack>
+#include <queue>
 
 #define _DEBUG
 
@@ -47,8 +48,8 @@ void PostOrderIterative(struct Node* root)
 				S.pop();
 			}
 		}
-		else if(current->left == previous)				//traversing up from the left subtree. For Postorder, push right subtree first and if not there, then pop current.
-		{
+		else if(current->left == previous)				//traversing up from the left subtree. For Postorder, push right subtree first and if not there, 
+		{												//then pop current.
 			if(current->right)
 				S.push(current->right);
 			else
@@ -59,8 +60,8 @@ void PostOrderIterative(struct Node* root)
 		}
 		else
 		{
-			printf(" %d ",current->data);				//traversing up from right subtree, means we are through with left and right both, then pop and process current.
-			S.pop();
+			printf(" %d ",current->data);				//traversing up from right subtree, means we are through with left and right both, 
+			S.pop();									//then pop and process current.
 		}
 		previous = current;
 	}

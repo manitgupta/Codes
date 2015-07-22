@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <stack>
+#include <queue>
 
 #define _DEBUG
 // #define _FUNCDG
@@ -21,7 +22,23 @@ struct Node* newNode(int data)
     node->left = node->right = NULL;
     return node;
 }
- 
+
+void LevelOrder(struct Node* root)
+{
+	queue <struct Node*> Q;
+	if(!root)
+		return;
+	Q.push(root);
+	while(!Q.empty())
+	{
+		struct Node* temp = Q.pop();
+		printf(" %d ",temp->data);
+		if(temp->left)
+			Q.push(temp->left);
+		if(temp->right)
+			Q.push(temp->right);
+	}
+}
 
 int FindMax(struct Node* root)
 {
@@ -80,6 +97,7 @@ int main()
     root->right->right = newNode(7);
     root->right->right->right = newNode(34);
     printf("%d is the Maxmimum Element in tree\n",FindMax(root));
+    LevelOrder(root);
     printf("\n");
     return 0;
 }
