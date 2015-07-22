@@ -31,23 +31,14 @@ struct Node* FindInBST(struct Node* root,int element)
 		return NULL;
 	if(root->data == element)
 	{	
-		#ifdef _FUNCDG
-		printf("%d ",root->data);
-		#endif
 		return root;
 	}					//equal then return.
 	else if(root->data > element)		//it is less than root, hence it must be in the left subtree.
 	{
-		#ifdef _FUNCDG
-		printf("%d left \n",root->data);
-		#endif
 		FindInBST(root->left,element);
 	}	
 	else								//it is greater then root, must be in right subtree.
 	{
-		#ifdef _FUNCDG
-		printf("%d right\n",root->data);
-		#endif
 		FindInBST(root->right,element);
 	}	
 }
@@ -125,6 +116,32 @@ struct Node* InOrderPredecessor(struct Node* x, struct Node* root)
 	}
 	return pred;
 }
+
+void InOrder(struct Node *root)
+{
+	if(root)
+	{
+		InOrder(root->left);
+		printf(" %d ",root->data);
+		InOrder(root->right);
+	}
+}
+
+struct Node* Insert(struct Node* root, int data)
+{
+	if(root == NULL)		//When the Tree is empty
+	{
+		return newNode(data);
+	}
+	else
+	{
+		if(data < root->data)	//When data is less than root, move to insert in the left subtree.
+			root->left = Insert(root->left,data);		//recursively update the root pointer.
+		else if(data > root->data)
+			root->right = Insert(root->right,data);
+	}
+	return root;			//updated pointer returned here.
+}
 // Driver program to test above functions
 #ifdef _DEBUG
 int main()
@@ -141,25 +158,26 @@ int main()
     	10	14	   
   */
     struct Node* root = NULL;
-    root = newNode(20);
-    root->left = newNode(8);
-    root->right = newNode(22);
-    root->left->left = newNode(4);
-    root->left->right = newNode(12);
-    root->left->right->left = newNode(10);
-    root->left->right->right = newNode(14);
-    
+   	root = Insert(root,20);
+    root = Insert(root,20);
+    root = Insert(root,8);
+    root = Insert(root,22);
+    root = Insert(root,4);
+    root = Insert(root,12);
+    root = Insert(root,10);
+    root = Insert(root,14);
+    InOrder(root);
+    printf("\n");
     // int element =23;
     // if (FindInBST(root,element)!=NULL)
     // 	printf("%d is present in the BST\n",element);
     // else
     // 	printf("%d is NOT present in the BST\n",element);
  
- 	printf("%d is the Min Element of BST\n",FindMin(root)->data);
- 	printf("%d is the Max Element of BST\n",FindMax(root)->data);
- 	printf("%d is the InOrder Successor of %d\n",InOrderSuccessor(root->left->right->right,root)->data,root->left->right->right->data);
- 	printf("%d is the InOrder Predecessor of %d\n",InOrderPredecessor(root,root)->data,root->data);
- 	// printf("%d is the InOrder Predecessor of %d\n",InOrderPredecessor(root)->data,root->data);    
+ 	// printf("%d is the Min Element of BST\n",FindMin(root)->data);
+ 	// printf("%d is the Max Element of BST\n",FindMax(root)->data);
+ 	// printf("%d is the InOrder Successor of %d\n",InOrderSuccessor(root->left->right->right,root)->data,root->left->right->right->data);
+ 	printf("%d is the InOrder Predecessor of %d\n",InOrderPredecessor(root,root)->data,root->data);    
     return 0;
 
 }
