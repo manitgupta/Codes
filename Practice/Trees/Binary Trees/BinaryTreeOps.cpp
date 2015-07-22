@@ -41,8 +41,27 @@ void LevelOrder(struct Node* root)				//Note : Return temp in the end to obtain 
 		if(temp->right)
 			Q.push(temp->right);
 	}
+	printf("\n");
 }
 
+struct Node* DeepestNode(struct Node* root)				//Note : Return temp in the end to obtain the deepest node in the tree.
+{
+	queue <struct Node*> Q;
+	struct Node* temp;
+	if(!root)
+		return NULL;
+	Q.push(root);
+	while(!Q.empty())
+	{
+		temp = Q.front();
+		Q.pop();
+		if(temp->left)
+			Q.push(temp->left);
+		if(temp->right)
+			Q.push(temp->right);
+	}
+	return temp;
+}
 void LeverOrderReverse(struct Node* root)
 {
 	queue<struct Node*> Q;
@@ -165,6 +184,34 @@ int SearchBinaryTree(struct Node* root, int element)
 		}
 	}
 }
+
+void DeleteNode(struct Node* root, int element)
+{
+	int temp;
+	struct Node* DeepNode = DeepestNode(root); 			//Find the deepest node.
+	if(root == NULL)
+		return;
+	if(root->data == element)			//Match Found! Delete it!
+	{
+		root->data = DeepNode->data;
+		free(DeepNode);			//DeepNode is a pointer to the node returned by DeepestNode. free deallocates the space pointed to by DeepNode.
+	}
+	else						//value not equal to current node
+	{
+		temp = SearchBinaryTree(root->left,element);	//search in the left subtree via recursion	
+		if (temp!=INT_MIN)
+			return;
+		else
+		{
+			temp = SearchBinaryTree(root->right,element);		//if not in left subtree, search in right
+			if(temp!=INT_MIN)
+				return; 
+			else
+				return;							//not in current, left and right subtrees then not in tree.
+		}
+	}
+}
+
 // Driver program to test above functions
 #ifdef _DEBUG
 int main()
@@ -189,15 +236,17 @@ int main()
     root->right->left = newNode(6);
     root->right->right = newNode(7);
     root->right->right->right = newNode(34);
-    // printf("%d is the Maxmimum Element in tree\n",FindMax(root));
-    // printf("Level Order Traversal:\n");
-    // LevelOrder(root);
     // printf("\n%d is the Max Value (Iterative)\n",FindMaxIterative(root));
+    // printf("%d is the Maxmimum Element in tree\n",FindMax(root));
     // printf("%d: 1 = Match Found, -99999 = NOT FOUND\n",SearchBinaryTree(root,14));
-    printf("Level Order in Reverse:\n");
-    LeverOrderReverse(root);
-    printf("\n%d is the Height of the Binary Tree\n",HeightBinaryTree(root));
-    printf("\n");
+    // printf("Level Order in Reverse:\n");
+    // LeverOrderReverse(root);
+    // printf("\n%d is the Height of the Binary Tree\n",HeightBinaryTree(root));
+    // printf("\n");
+    DeleteNode(root,21);
+    printf("Level Order Traversal After Deletion:\n");
+    LevelOrder(root);
+    
     return 0;
 }
 #endif
