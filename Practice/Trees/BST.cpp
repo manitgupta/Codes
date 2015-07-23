@@ -142,6 +142,38 @@ struct Node* Insert(struct Node* root, int data)
 	}
 	return root;			//updated pointer returned here.
 }
+
+struct Node* Delete(struct Node* root, int data)
+{
+	struct Node* temp;
+	//First Step: Find the node to be deleted.
+	if(root == NULL)
+	{
+		printf("\nElement is NOT Present\n");
+	}
+	else if(data < root->data)		//less than root, must be in left subtree
+		root->left = Delete(root->left,data);
+	else if(data > root->data)		//greater than root, must be in right subtree
+		root->right = Delete(root->right,data);
+	else			//Means node to be deleted has been found
+	{
+		if(root->left && root->right)	//Case where node to be deleted has both left and right children.
+		{
+			temp = FindMax(root->left);//InorderPredecessor Function will also work, however it is guarenteed here that InPredecessor will be largest
+			root->data = temp->data;	//element of left subtree (since node to be deleted has a left child)
+			root->left = Delete(root->left,temp->data);	//Recursively handle deletion of Max element of left subtree.							 
+		}
+		else	//Case wwhere node to has 1 or 0 child.
+		{
+			if(root->left == NULL)		//Node with only right child. Stick the right child to the node's parent.
+				root = root->right;
+			if(root->right == NULL)		//Another if to handle 0th child case as well.
+				root = root->left;
+		}								
+	}
+	return root;
+}
+
 // Driver program to test above functions
 #ifdef _DEBUG
 int main()
@@ -149,23 +181,28 @@ int main()
     // Let us construct the tree shown in above figure
 
     /* Constructed binary tree is
-            20
+            4
           /   \
-        8      22
-      /  \     
-    4     12
-    	/	\	  
-    	10	14	   
+        2      8
+         	 /	  \
+         	5      12
+        	 \
+    	  	  7
+    	  	 /
+			6		   
   */
     struct Node* root = NULL;
-   	root = Insert(root,20);
-    root = Insert(root,20);
-    root = Insert(root,8);
-    root = Insert(root,22);
+
     root = Insert(root,4);
+    root = Insert(root,2);
+    root = Insert(root,8);
+    root = Insert(root,5);
     root = Insert(root,12);
-    root = Insert(root,10);
-    root = Insert(root,14);
+    root = Insert(root,7);
+    root = Insert(root,6);
+    InOrder(root);
+    root = Delete(root,7);
+    printf("\n");
     InOrder(root);
     printf("\n");
     // int element =23;
@@ -177,7 +214,7 @@ int main()
  	// printf("%d is the Min Element of BST\n",FindMin(root)->data);
  	// printf("%d is the Max Element of BST\n",FindMax(root)->data);
  	// printf("%d is the InOrder Successor of %d\n",InOrderSuccessor(root->left->right->right,root)->data,root->left->right->right->data);
- 	printf("%d is the InOrder Predecessor of %d\n",InOrderPredecessor(root,root)->data,root->data);    
+ 	// printf("%d is the InOrder Predecessor of %d\n",InOrderPredecessor(root,root)->data,root->data);    
     return 0;
 
 }
