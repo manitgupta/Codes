@@ -261,6 +261,14 @@ int main()
     // root = Insert(root,6);
     // InOrder(root);
     
+     /* Constructed binary tree is
+            1
+          /   \
+        2      3
+      /  \    / \
+    4     5  6   7
+  */
+    
     root = newNode(1);
     root->left = newNode(2);
     root->right = newNode(3);
