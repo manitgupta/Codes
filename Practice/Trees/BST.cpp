@@ -222,7 +222,6 @@ int main()
 			6		   
   */
     struct Node* root = NULL;
-
     root = Insert(root,4);
     root = Insert(root,2);
     root = Insert(root,8);
