@@ -46,9 +46,9 @@ void LevelOrder(struct Node* root)				//Note : Return temp in the end to obtain 
 
 struct Node* DeepestNode(struct Node* root)				//Note : Return temp in the end to obtain the deepest node in the tree.
 {
-	queue <struct Node*> Q;
-	struct Node* temp;
-	if(!root)
+	queue <struct Node*> Q;								//Same as Level Order Traversal, since LOT goes level size, deepest node would be at the
+	struct Node* temp;									//last level.
+	if(!root)										
 		return NULL;
 	Q.push(root);
 	while(!Q.empty())
@@ -64,8 +64,8 @@ struct Node* DeepestNode(struct Node* root)				//Note : Return temp in the end t
 }
 void LeverOrderReverse(struct Node* root)
 {
-	queue<struct Node*> Q;
-	stack<struct Node*> S;
+	queue<struct Node*> Q;						//For reverse LOT, traverse the tree using the Queue and store the LOT order in a stack,
+	stack<struct Node*> S;						// after completion of traversal pop the stack completely.
 	if(!root)
 		return;
 	Q.push(root);

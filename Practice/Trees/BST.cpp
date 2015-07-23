@@ -28,7 +28,11 @@ struct Node* newNode(int data)
 struct Node* FindInBST(struct Node* root,int element)
 {
 	if(root == NULL)		//base case
+	{
+		printf("Not Found in tree\n");
 		return NULL;
+		// exit(0);
+	}	
 	if(root->data == element)
 	{	
 		return root;
@@ -174,13 +178,39 @@ struct Node* Delete(struct Node* root, int data)
 	return root;
 }
 
+struct Node* FindLCA(struct Node *root, int first, int second) 		//LCA is the first ancestor whose value is between a & b.
+{
+	struct Node *a,*b;
+	a = FindInBST(root,first);
+	b = FindInBST(root,second);
+	if(b != NULL && a!= NULL)
+	{
+		while(1)
+		{
+			if((a->data > root->data && b->data < root->data) || (a->data < root->data && b->data > root->data))	//root is between a&b; hence it is LCA
+				return root;
+			if(root->data < a->data && root->data < b->data)		//root is less than both a and b, LCA must be in right subtree.
+				root = root->right;
+			else
+				root = root->left;				//last condition : root is greater than both a & b, LCA must be in left subtree.
+		}
+		return root;	
+	}
+	else
+	{
+		printf("Elements not in Tree.\n");
+		return NULL;
+	}
+	
+}
+
 // Driver program to test above functions
 #ifdef _DEBUG
 int main()
 {
     // Let us construct the tree shown in above figure
 
-    /* Constructed binary tree is
+    /* Constructed binary tree is (example on book Pg. 163)
             4
           /   \
         2      8
@@ -205,6 +235,7 @@ int main()
     printf("\n");
     InOrder(root);
     printf("\n");
+    printf("%d is the LCA\n",FindLCA(root,6,12)->data);
     // int element =23;
     // if (FindInBST(root,element)!=NULL)
     // 	printf("%d is present in the BST\n",element);
