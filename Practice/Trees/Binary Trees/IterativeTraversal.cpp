@@ -12,7 +12,7 @@ void InOrderIterative(struct Node* root)
     struct Stack* S = createStack(10);
     while(1)
     {
-        while(root)
+        while(root)                 //For Processing the left children
         {
             Push(S,root);
             root = root->left;
@@ -20,8 +20,8 @@ void InOrderIterative(struct Node* root)
         if(isEmpty(S))
             break;
         root = Pop(S);
-        printf(" %d ",root->data);
-        root = root->right;
+        printf(" %d ",root->data);  //Handle current node.
+        root = root->right;         //Outside loop and this statement handle right chidren finally.
     }
 }
 

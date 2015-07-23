@@ -1,8 +1,14 @@
+// ***********COMPILE USING : g++ -std=C++11 BST.cpp
+// Uses algorithm and vector, which require the C++ 11 standard.
+
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
+#include <algorithm>
 #include <stack>
 #include <queue>
+#include <vector>
+
 
 #define _DEBUG
 //#define _FUNCDG
@@ -16,6 +22,8 @@ struct Node
     int data;
     struct Node *left, *right;
 };
+
+vector<int> temp;			//global vector for Checking Binary Tree.
 
 struct Node* newNode(int data)
 {
@@ -59,12 +67,12 @@ struct Node* FindMin(struct Node* root)
 
 struct Node* FindMax(struct Node* root)
 {
-	if(root == NULL)
+	if(root == NULL)		//base case, when no tree.
 		return NULL;
-	if(root->right == NULL)
+	if(root->right == NULL)	//Minimum element is the right-most Node i.e. does not have a right child.
 		return root;
 	else
-		FindMax(root->right);
+		return FindMax(root->right);
 }
 
 struct Node* InOrderSuccessor(struct Node* x, struct Node* root)
@@ -131,6 +139,28 @@ void InOrder(struct Node *root)
 	}
 }
 
+void IsBSTHelper(struct Node *root)
+{
+	
+	if(root)
+	{
+		IsBSTHelper(root->left);
+		printf(" %d ",root->data);
+		temp.push_back(root->data);
+		IsBSTHelper(root->right);
+	}
+}
+int IsBST(struct Node* root)
+{
+	IsBSTHelper(root);
+	printf("\n");
+	for (int i = 0; i < temp.size(); ++i)
+	{
+		printf("%d ",temp[i]);
+	}
+	return (is_sorted(temp.begin(), temp.end()));
+}
+
 struct Node* Insert(struct Node* root, int data)
 {
 	if(root == NULL)		//When the Tree is empty
@@ -187,7 +217,7 @@ struct Node* FindLCA(struct Node *root, int first, int second) 		//LCA is the fi
 	{
 		while(1)
 		{
-			if((a->data > root->data && b->data < root->data) || (a->data < root->data && b->data > root->data))	//root is between a&b; hence it is LCA
+			if((a->data > root->data && b->data < root->data) || (a->data < root->data && b->data > root->data))//root is between a&b; hence it is LCA
 				return root;
 			if(root->data < a->data && root->data < b->data)		//root is less than both a and b, LCA must be in right subtree.
 				root = root->right;
@@ -222,19 +252,29 @@ int main()
 			6		   
   */
     struct Node* root = NULL;
-    root = Insert(root,4);
-    root = Insert(root,2);
-    root = Insert(root,8);
-    root = Insert(root,5);
-    root = Insert(root,12);
-    root = Insert(root,7);
-    root = Insert(root,6);
-    InOrder(root);
-    root = Delete(root,7);
+    // root = Insert(root,4);
+    // root = Insert(root,2);
+    // root = Insert(root,8);
+    // root = Insert(root,5);
+    // root = Insert(root,12);
+    // root = Insert(root,7);
+    // root = Insert(root,6);
+    // InOrder(root);
+    
+    root = newNode(1);
+    root->left = newNode(2);
+    root->right = newNode(3);
+    root->left->left = newNode(4);
+    root->left->right = newNode(5);
+    root->right->left = newNode(6);
+    root->right->right = newNode(7);
+    
+    // root = Delete(root,7);
+    // printf("\n");
+    // InOrder(root);
     printf("\n");
-    InOrder(root);
-    printf("\n");
-    printf("%d is the LCA\n",FindLCA(root,6,12)->data);
+    // printf("%d is the LCA\n",FindLCA(root,6,12)->data);
+    printf("\n IsBST=%d\n",IsBST(root));
     // int element =23;
     // if (FindInBST(root,element)!=NULL)
     // 	printf("%d is present in the BST\n",element);
