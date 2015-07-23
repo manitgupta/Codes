@@ -14,7 +14,7 @@ Quick Tips:
 
 Some Files use the C++11 standard. Use flag -std=C++11 for compiling.
 
-Note to self: Press Alt+Shift+t to open a terminal window in the current working directory.
+Note to self: Press **Alt+Shift+t** to open a terminal window in the current working directory.
 
 ###Use the Git Plugin within sublime text
 	
