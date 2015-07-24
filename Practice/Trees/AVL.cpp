@@ -21,12 +21,29 @@ struct Node
 	struct Node* right;
 };
 
+struct Node* newNode(int data)
+{
+    struct Node* node = (struct Node*) malloc(sizeof(struct Node));
+    node->data = data;
+    node->left = node->right = NULL;
+    node->height = 0;			//Node is initially added as a leaf, whose height is defined 0.
+    return node;
+}
+
 int Height(struct Node *root)
 {
 	if(!root)
 		return -1;
 	else
 		return root->height;
+}
+
+int getBalance(struct Node* N)		//Get the Balance factor of a Tree Node N
+{
+	if(!N)
+		return -1;
+	else
+		return (Height(N->left) - Height(N->right));
 }
 
 // Nodes:
@@ -76,21 +93,27 @@ int Height(struct Node *root)
 //Left-Left Case,same as RotateRight(z) on GeeksforGeeks
 struct Node* SingleRotateLeft(struct Node* Z)		 
 {
+	//Perform Rotations.
 	struct Node* Y = Z->left;
 	Z->left = Y->right;
 	Y->right = Z;
+	//Update Heights
 	Z->height = Max(Height(Z->left),Height(Z->right))+1;
-	Y->height = Max(Height(Y->left),Z->height)+1;
+	Y->height = Max(Height(Y->left),Height(Y->right))+1;			//Optimization : Y->height = Max(Height(Y->left),Z->height)+1;
+	//New Root must be returned.
 	return Y;
 }
 //Right-Right Case, same as RotateLeft(z) on GeeksforGeeks.
 struct Node* SingleRotateRight(struct Node* Z) 
 {
+	//Perform Rotation.
 	struct Node* Y = Z->right;
 	Z->right = Y->left;
 	Y->left = Z;
+	//Update Heights
 	Z->height = Max(Height(Z->left),Height(Z->right))+1;
-	Y->height = Max(Height(Y->right),Z->height)+1;
+	Y->height = Max(Height(Y->left),Height(Y->right))+1;
+	//New Root Must be returned.
 	return Y;
 }
 //Left-Right Case, i.e. Node is inserted in the right subtree of the left child.
@@ -110,7 +133,68 @@ struct Node* DoubleRotateRightLeft(struct Node *Z)
 	return Z;
 }
 
+struct Node* Insert(struct Node *root,int data)
+{
+	if(root == NULL)
+		return newNode(data);
+	else if(data < root->data)
+	{
+		root->left = Insert(root->left,data);			//Recursively move to insert in Left Subtree. Same as BST.
+		if(getBalance(root) == 2)
+		{
+			if(data < root->left->data)
+				root = SingleRotateLeft(root);				//Case 1: Left-Left Case. Remember SingleRotateLeft returns the new root.
+			else
+				root = DoubleRotateLeftRight(root);			//Case 2: Left-Right Case.	
+		}
+		
+	}
+	else if(data > root->data)
+	{
+		root->right = Insert(root->right,data); 		//Recursively move to insert in Right Subtree. Same as BST.
+		if(getBalance(root) == 2)
+		{
+			if (data > root->right->data)
+				root = SingleRotateRight(root);				//Case 3 : Right-Right Case.
+			else
+				root = DoubleRotateRightLeft(root);			//Case 4 : Right-Left Case.	
+		}		
+	}
+	//After Insertion, update/increase the height of the root, all others are updated via calls to Rotation functions.
+	root->height = Max(Height(root->left),Height(root->right))+1;
+	return root;
+}
+void InOrder(struct Node *root)
+{
+	if(root)
+	{
+		InOrder(root->left);
+		printf(" %d ",root->data);
+		InOrder(root->right);
+	}
+}
 int main()
 {
-	return 0;
+	struct Node *root = NULL;
+ 
+  	/* Constructing tree given in the above figure */
+  	root = Insert(root, 10);
+  	root = Insert(root, 20);
+  	root = Insert(root, 30);
+  	root = Insert(root, 40);
+  	root = Insert(root, 50);
+  	root = Insert(root, 25);
+ 
+  	/* The constructed AVL Tree would be
+            30
+           /  \
+         20   40
+        /  \     \
+       10  25    50
+  	*/
+ 
+  	printf("In order traversal of the constructed AVL tree is \n");
+  	InOrder(root);
+ 
+  	return 0;
 }
