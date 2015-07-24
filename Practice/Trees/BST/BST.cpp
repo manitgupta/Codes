@@ -135,7 +135,7 @@ struct Node* Insert(struct Node* root, int data)
 {
 	if(root == NULL)		//When the Tree is empty
 	{
-		return newNode(data);
+		return newNode(data);	//Actual insertion always takes place here.
 	}
 	else
 	{
@@ -169,10 +169,19 @@ struct Node* Delete(struct Node* root, int data)
 		}
 		else	//Case wwhere node to has 1 or 0 child.
 		{
+			temp = root;				//Make temp eqaul to root and then free it up later.
 			if(root->left == NULL)		//Node with only right child. Stick the right child to the node's parent.
-				root = root->right;
+			{
+				root = root->right;		//Stick child.
+				free(temp);				//free up the original root.
+				return root;
+			}	
 			if(root->right == NULL)		//Another if to handle 0th child case as well.
+			{
 				root = root->left;
+				free(temp);
+				return root;
+			}	
 		}								
 	}
 	return root;
@@ -199,7 +208,7 @@ struct Node* FindLCA(struct Node *root, int first, int second) 		//LCA is the fi
 	else
 	{
 		printf("Elements not in Tree.\n");
-		return NULL;
+		exit(0);
 	}
 	
 }
@@ -230,11 +239,11 @@ int main()
     root = Insert(root,7);
     root = Insert(root,6);
     InOrder(root);
-    root = Delete(root,7);
+    root = Delete(root,4);
     printf("\n");
     InOrder(root);
     printf("\n");
-    printf("%d is the LCA\n",FindLCA(root,6,12)->data);
+    printf("%d is the LCA\n",FindLCA(root,14,12)->data);
     // int element =23;
     // if (FindInBST(root,element)!=NULL)
     // 	printf("%d is present in the BST\n",element);
