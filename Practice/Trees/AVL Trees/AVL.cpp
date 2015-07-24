@@ -1,144 +1,161 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <iostream>
+#include <cstdlib>
+#include <cstdio>
+#include <vector>
 
-//From GEEKSFORGEEKS. 
-// An AVL tree node
-struct node
+using namespace std;
+
+#define _DEBUG
+
+#define Max(a, b)  (a < b ? b : a)
+#define Min(a, b)  (a > b ? b : a)
+#define INT_MIN -999999
+
+//Reference for Theory: http://www.geeksforgeeks.org/avl-tree-set-1-insertion/
+// Nodes:
+// W : Newly Inserted Node.
+// Z : First Node where height imbalance occurs while traveling up from W.
+// Y : Child of Z present on the path from W to Z.
+// X : Grandchlid of Z present on the path from W to Z.
+// 
+//a) Left Left Case
+// T1, T2, T3 and T4 are subtrees.
+//          z                                      y 
+//         / \                                   /   \	
+//        y   T4      Right Rotate (z)          x      z
+//       / \          - - - - - - - - ->      /  \    /  \ 
+//      x   T3        SingleRotateLeft(Z)    T1  T2  T3  T4
+//     / \				
+//   T1   T2
+// b) Left Right Case
+
+//      z                               z                           x
+//     / \                            /   \                        /  \ 
+//    y   T4  Left Rotate (y)        x    T4  Right Rotate(z)    y      z
+//   / \      - - - - - - - - ->    /  \      - - - - - - - ->  / \    / \	
+// T1   x                          y    T3                    T1  T2 T3  T4
+//     / \                        / \	
+//   T2   T3                    T1   T2
+// c) Right Right Case
+
+//   z                               			   y
+//  /  \                            			 /   \ 
+// T1   y     Left Rotate(z)       				z      x
+//     /  \   - - - - - - - ->    			   / \    / \	
+//    T2   x    SingleRotateRight(Z)         T1  T2 T3  T4
+//        / \	
+//      T3  T4
+// d) Right Left Case
+
+//    z                            z                            x
+//   / \                          / \                          /  \ 
+// T1   y   Right Rotate (y)    T1   x      Left Rotate(z)   z      y
+//     / \  - - - - - - - - ->     /  \   - - - - - - - ->  / \    / \	
+//    x   T4                      T2   y                  T1  T2  T3  T4
+//   / \                              /  \	
+// T2   T3                           T3   T4
+
+
+struct Node
 {
-    int key;
-    struct node *left;
-    struct node *right;
-    int height;
+	int data;
+	int height;
+	struct Node* left;
+	struct Node* right;
 };
- 
-// A utility function to get maximum of two integers
-int max(int a, int b);
- 
-// A utility function to get height of the tree
-int height(struct node *N)
+
+struct Node* newNode(int data)
 {
-    if (N == NULL)
-        return 0;
-    return N->height;
-}
- 
-// A utility function to get maximum of two integers
-int max(int a, int b)
-{
-    return (a > b)? a : b;
-}
- 
-/* Helper function that allocates a new node with the given key and
-    NULL left and right pointers. */
-struct node* newNode(int key)
-{
-    struct node* node = (struct node*)
-                        malloc(sizeof(struct node));
-    node->key   = key;
-    node->left   = NULL;
-    node->right  = NULL;
-    node->height = 1;  // new node is initially added at leaf
-    return(node);
-}
- 
-// A utility function to right rotate subtree rooted with y
-// See the diagram given above.
-struct node *rightRotate(struct node *y)
-{
-    struct node *x = y->left;
-    struct node *T2 = x->right;
- 
-    // Perform rotation
-    x->right = y;
-    y->left = T2;
- 
-    // Update heights
-    y->height = max(height(y->left), height(y->right))+1;
-    x->height = max(height(x->left), height(x->right))+1;
- 
-    // Return new root
-    return x;
-}
- 
-// A utility function to left rotate subtree rooted with x
-// See the diagram given above.
-struct node *leftRotate(struct node *x)
-{
-    struct node *y = x->right;
-    struct node *T2 = y->left;
- 
-    // Perform rotation
-    y->left = x;
-    x->right = T2;
- 
-    //  Update heights
-    x->height = max(height(x->left), height(x->right))+1;
-    y->height = max(height(y->left), height(y->right))+1;
- 
-    // Return new root
-    return y;
-}
- 
-// Get Balance factor of node N
-int getBalance(struct node *N)
-{
-    if (N == NULL)
-        return 0;
-    return height(N->left) - height(N->right);
-}
- 
-struct node* insert(struct node* node, int key)
-{
-    /* 1.  Perform the normal BST rotation */
-    if (node == NULL)
-        return(newNode(key));
- 
-    if (key < node->key)
-        node->left  = insert(node->left, key);
-    else
-        node->right = insert(node->right, key);
- 
-    /* 2. Update height of this ancestor node */
-    node->height = max(height(node->left), height(node->right)) + 1;
- 
-    /* 3. Get the balance factor of this ancestor node to check whether
-       this node became unbalanced */
-    int balance = getBalance(node);
- 
-    // If this node becomes unbalanced, then there are 4 cases
- 
-    // Left Left Case
-    if (balance > 1 && key < node->left->key)
-        return rightRotate(node);
- 
-    // Right Right Case
-    if (balance < -1 && key > node->right->key)
-        return leftRotate(node);
- 
-    // Left Right Case
-    if (balance > 1 && key > node->left->key)
-    {
-        node->left =  leftRotate(node->left);
-        return rightRotate(node);
-    }
- 
-    // Right Left Case
-    if (balance < -1 && key < node->right->key)
-    {
-        node->right = rightRotate(node->right);
-        return leftRotate(node);
-    }
- 
-    /* return the (unchanged) node pointer */
+    struct Node* node = (struct Node*) malloc(sizeof(struct Node));
+    node->data = data;
+    node->left = node->right = NULL;
+    node->height = 0;			//New Node is always added as leaf, Hence height = 0.
     return node;
 }
- 
-/* Given a non-empty binary search tree, return the node with minimum
-   key value found in that tree. Note that the entire tree does not
-   need to be searched. */
-struct node * minValueNode(struct node* node)
+
+int Height(struct Node *root)
 {
-    struct node* current = node;
+	if(!root)
+		return -1;		//Height of NULL NODE is -1
+	else
+		return root->height;
+}
+
+int getBalance(struct Node* N)		//Get the Balance factor of a Tree Node N
+{
+	if(!N)
+		return -1;
+	else
+		return (Height(N->left) - Height(N->right));
+}
+
+
+
+//Left-Left Case,same as RotateRight(z) on GeeksforGeeks
+struct Node* SingleRotateLeft(struct Node* Z)		 
+{
+	//Perform Rotations.
+	struct Node* Y = Z->left;
+	Z->left = Y->right;
+	Y->right = Z;
+	//Update Heights
+	Z->height = Max(Height(Z->left),Height(Z->right))+1;
+	Y->height = Max(Height(Y->left),Height(Y->right))+1;			//Optimization : Y->height = Max(Height(Y->left),Z->height)+1;
+	//New Root must be returned.
+	return Y;
+}
+//Right-Right Case, same as RotateLeft(z) on GeeksforGeeks.
+struct Node* SingleRotateRight(struct Node* Z) 
+{
+	//Perform Rotation.
+	struct Node* Y = Z->right;
+	Z->right = Y->left;
+	Y->left = Z;
+	//Update Heights
+	Z->height = Max(Height(Z->left),Height(Z->right))+1;
+	Y->height = Max(Height(Y->left),Height(Y->right))+1;
+	//New Root Must be returned.
+	return Y;
+}
+//Left-Right Case, i.e. Node is inserted in the right subtree of the left child.
+struct Node* DoubleRotateLeftRight(struct Node *Z) 
+{
+	struct Node* Y = Z->left;
+	Y = SingleRotateRight(Y);
+	Z = SingleRotateLeft(Z);
+	return Z;
+}
+
+struct Node* DoubleRotateRightLeft(struct Node *Z)
+{
+	struct Node* Y = Z->right;
+	Y = SingleRotateLeft(Y);
+	Z = SingleRotateRight(Z);
+	return Z;
+}
+
+void PreOrder(struct Node *root)
+{
+	if(root)
+	{
+		printf(" %d ",root->data);
+        PreOrder(root->left);
+        PreOrder(root->right);
+	}
+}
+
+struct Node* FindMax(struct Node* root) //Max is the right most element
+{
+	if(root == NULL)
+		return NULL;
+	if(root->right == NULL)
+		return root;
+	else
+		FindMax(root->right);
+}
+struct Node* minValueNode(struct Node* node)
+{
+    struct Node* current = node;
  
     /* loop down to find the leftmost leaf */
     while (current->left != NULL)
@@ -146,32 +163,76 @@ struct node * minValueNode(struct node* node)
  
     return current;
 }
- 
-struct node* deleteNode(struct node* root, int key)
+struct Node* Insert(struct Node* root, int data)
 {
-    // STEP 1: PERFORM STANDARD BST DELETE
+    /* 1.  Perform the normal BST rotation */
+    if (root == NULL)
+        return(newNode(data));
+ 
+    if (data < root->data)
+        root->left  = Insert(root->left, data);
+    else
+        root->right = Insert(root->right, data);
+ 
+    /* 2. Update height of this ancestor root */
+    root->height = Max(Height(root->left), Height(root->right)) + 1;
+ 
+    /* 3. Get the balance factor of this ancestor root to check whether
+       this root became unbalanced */
+    int balance = getBalance(root);
+ 
+    // If this root becomes unbalanced, then there are 4 cases
+ 
+    // Left Left Case
+    if (balance > 1 && data < root->left->data)
+        return SingleRotateLeft(root);
+ 
+    // Right Right Case
+    if (balance < -1 && data > root->right->data)
+        return SingleRotateRight(root);
+ 
+    // Left Right Case
+    if (balance > 1 && data > root->left->data)
+    {
+        root->left =  SingleRotateRight(root->left);
+        return SingleRotateLeft(root);
+    }
+ 
+    // Right Left Case
+    if (balance < -1 && data < root->right->data)
+    {
+        root->right = SingleRotateLeft(root->right);
+        return SingleRotateRight(root);
+    }
+ 
+    /* return the (unchanged) root pointer */
+    return root;
+}
+struct Node* Delete(struct Node* root, int data)
+{
+// STEP 1: PERFORM STANDARD BST DELETE
  
     if (root == NULL)
         return root;
  
-    // If the key to be deleted is smaller than the root's key,
+    // If the data to be deleted is smaller than the root's data,
     // then it lies in left subtree
-    if ( key < root->key )
-        root->left = deleteNode(root->left, key);
+    if ( data < root->data )
+        root->left = Delete(root->left, data);
  
-    // If the key to be deleted is greater than the root's key,
+    // If the data to be deleted is greater than the root's data,
     // then it lies in right subtree
-    else if( key > root->key )
-        root->right = deleteNode(root->right, key);
+    else if( data > root->data )
+        root->right = Delete(root->right, data);
  
-    // if key is same as root's key, then This is the node
+    // if data is same as root's data, then This is the node
     // to be deleted
     else
     {
         // node with only one child or no child
         if( (root->left == NULL) || (root->right == NULL) )
         {
-            struct node *temp = root->left ? root->left : root->right;
+            struct Node *temp = root->left ? root->left : root->right;
  
             // No child case
             if(temp == NULL)
@@ -186,15 +247,15 @@ struct node* deleteNode(struct node* root, int key)
         }
         else
         {
-            // node with two children: Get the inorder successor (smallest
-            // in the right subtree)
-            struct node* temp = minValueNode(root->right);
+            // node with two children: Get the inorder predecessor (largest
+            // in the left subtree)
+            struct Node* temp = minValueNode(root->right);
  
-            // Copy the inorder successor's data to this node
-            root->key = temp->key;
+            // Copy the inorder predecessor's data to this node
+            root->data = temp->data;
  
-            // Delete the inorder successor
-            root->right = deleteNode(root->right, temp->key);
+            // Delete the inorder predecessor
+           root->right = Delete(root->right, temp->data);
         }
     }
  
@@ -203,7 +264,7 @@ struct node* deleteNode(struct node* root, int key)
       return root;
  
     // STEP 2: UPDATE HEIGHT OF THE CURRENT NODE
-    root->height = max(height(root->left), height(root->right)) + 1;
+    root->height = Max(Height(root->left), Height(root->right)) + 1;
  
     // STEP 3: GET THE BALANCE FACTOR OF THIS NODE (to check whether
     //  this node became unbalanced)
@@ -213,56 +274,44 @@ struct node* deleteNode(struct node* root, int key)
  
     // Left Left Case
     if (balance > 1 && getBalance(root->left) >= 0)
-        return rightRotate(root);
+        return SingleRotateLeft(root);
  
     // Left Right Case
     if (balance > 1 && getBalance(root->left) < 0)
     {
-        root->left =  leftRotate(root->left);
-        return rightRotate(root);
+        root->left =  SingleRotateRight(root->left);
+        return SingleRotateLeft(root);
     }
  
     // Right Right Case
     if (balance < -1 && getBalance(root->right) <= 0)
-        return leftRotate(root);
+        return SingleRotateRight(root);
  
     // Right Left Case
     if (balance < -1 && getBalance(root->right) > 0)
     {
-        root->right = rightRotate(root->right);
-        return leftRotate(root);
+        root->right = SingleRotateLeft(root->right);
+        return SingleRotateRight(root);
     }
  
     return root;
 }
- 
-// A utility function to print preorder traversal of the tree.
-// The function also prints height of every node
-void preOrder(struct node *root)
-{
-    if(root != NULL)
-    {
-        printf("%d ", root->key);
-        preOrder(root->left);
-        preOrder(root->right);
-    }
-}
- 
-/* Drier program to test above function*/
+
 int main()
 {
-  struct node *root = NULL;
+	struct Node *root = NULL;
  
+  	
   /* Constructing tree given in the above figure */
-    root = insert(root, 9);
-    root = insert(root, 5);
-    root = insert(root, 10);
-    root = insert(root, 0);
-    root = insert(root, 6);
-    root = insert(root, 11);
-    root = insert(root, -1);
-    root = insert(root, 1);
-    root = insert(root, 2);
+    root = Insert(root, 9);
+    root = Insert(root, 5);
+    root = Insert(root, 10);
+    root = Insert(root, 0);
+    root = Insert(root, 6);
+    root = Insert(root, 11);
+    root = Insert(root, -1);
+    root = Insert(root, 1);
+    root = Insert(root, 2);
  
     /* The constructed AVL Tree would be
             9
@@ -274,10 +323,10 @@ int main()
      -1   2    6
     */
  
-    printf("Pre order traversal of the constructed AVL tree is \n");
-    preOrder(root);
+  	printf("Pre order traversal of the constructed AVL tree is \n");
+  	PreOrder(root);
  
-    root = deleteNode(root, 10);
+  	root = Delete(root, 10);
  
     /* The AVL Tree after deletion of 10
             1
@@ -290,7 +339,7 @@ int main()
     */
  
     printf("\nPre order traversal after deletion of 10 \n");
-    preOrder(root);
+    PreOrder(root);
  
     return 0;
 }
