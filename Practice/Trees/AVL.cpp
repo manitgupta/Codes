@@ -154,46 +154,55 @@ struct Node* FindMax(struct Node* root) //Max is the right most element
 		FindMax(root->right);
 }
 
-struct Node* Insert(struct Node *root,int data)
+struct Node* Insert(struct Node* root, int data)
 {
-	if(root == NULL)
-		{	
-			root = newNode(data);
-			//printf("%d %d \n",root->height,root->data);
-		}
-	else if(data < root->data)
-	{
-		root->left = Insert(root->left,data);			//Recursively move to insert in Left Subtree. Same as BST.
-		if(getBalance(root) == 2)						//If Imbalance, then perform rotationss (getBalance(root) > 1) will also work
-		{
-			if(data < root->left->data)
-				root = SingleRotateLeft(root);				//Case 1: Left-Left Case. Remember SingleRotateLeft returns the new root.
-			else
-				root = DoubleRotateLeftRight(root);			//Case 2: Left-Right Case.	
-		}
-		
-	}
-	else if(data > root->data)
-	{
-		root->right = Insert(root->right,data); 		//Recursively move to insert in Right Subtree. Same as BST.
-		if(getBalance(root) == 2)
-		{
-			if (data > root->right->data)
-				root = SingleRotateRight(root);				//Case 3 : Right-Right Case.
-			else
-				root = DoubleRotateRightLeft(root);			//Case 4 : Right-Left Case.	
-		}		
-	}
-	//After Insertion, update/increase the height of the root, all others are updated via calls to Rotation functions.
-	root->height = Max(Height(root->left),Height(root->right))+1;
-	//printf("%d %d\n",root->height,root->data);
-	return root;
+    /* 1.  Perform the normal BST rotation */
+    if (root == NULL)
+        return(newNode(data));
+ 
+    if (data < root->data)
+        root->left  = Insert(root->left, data);
+    else
+        root->right = Insert(root->right, data);
+ 
+    /* 2. Update height of this ancestor root */
+    root->height = Max(Height(root->left), Height(root->right)) + 1;
+ 
+    /* 3. Get the balance factor of this ancestor root to check whether
+       this root became unbalanced */
+    int balance = getBalance(root);
+ 
+    // If this root becomes unbalanced, then there are 4 cases
+ 
+    // Left Left Case
+    if (balance > 1 && data < root->left->data)
+        return SingleRotateLeft(root);
+ 
+    // Right Right Case
+    if (balance < -1 && data > root->right->data)
+        return SingleRotateRight(root);
+ 
+    // Left Right Case
+    if (balance > 1 && data > root->left->data)
+    {
+        root->left =  SingleRotateRight(root->left);
+        return SingleRotateLeft(root);
+    }
+ 
+    // Right Left Case
+    if (balance < -1 && data < root->right->data)
+    {
+        root->right = SingleRotateLeft(root->right);
+        return SingleRotateRight(root);
+    }
+ 
+    /* return the (unchanged) root pointer */
+    return root;
 }
-
 struct Node* Delete(struct Node* root, int data)
 {
-    // STEP 1: PERFORM STANDARD BST DELETE
- 	struct Node* temp;
+// STEP 1: PERFORM STANDARD BST DELETE
+ 
     if (root == NULL)
         return root;
  
@@ -207,52 +216,63 @@ struct Node* Delete(struct Node* root, int data)
     else if( data > root->data )
         root->right = Delete(root->right, data);
  
-    // if data is same as root's data, then This is the Node
+    // if data is same as root's data, then This is the node
     // to be deleted
     else
     {
-        if(root->left && root->right)	//Case where node to be deleted has both left and right children.
-		{
-			temp = FindMax(root->left);//InorderPredecessor Function will also work, however it is guarenteed here that InPredecessor will be largest
-			root->data = temp->data;	//element of left subtree (since node to be deleted has a left child)
-			root->left = Delete(root->left,temp->data);	//Recursively handle deletion of Max element of left subtree.							 
-		}
-		else	//Case wwhere node to has 1 or 0 child.
-		{
-			temp = root;
-			if(root->left == NULL)		//Node with only right child. Stick the right child to the node's parent.
-			{
-				root = root->right;
-				free(temp);
-				return root;
-			}	
-			if(root->right == NULL)		//Another if to handle 0th child case as well.
-			{
-				root = root->left;
-				free(temp);
-				return root;
-			}	
-		}
+        // node with only one child or no child
+        if( (root->left == NULL) || (root->right == NULL) )
+        {
+            struct Node *temp = root->left ? root->left : root->right;
+ 
+            // No child case
+            if(temp == NULL)
+            {
+                temp = root;
+                root = NULL;
+            }
+            else // One child case
+             *root = *temp; // Copy the contents of the non-empty child
+ 
+            free(temp);
+        }
+        else
+        {
+            // node with two children: Get the inorder predecessor (largest
+            // in the left subtree)
+            struct Node* temp = FindMax(root->left);
+ 
+            // Copy the inorder predecessor's data to this node
+            root->data = temp->data;
+ 
+            // Delete the inorder predecessor
+            root->left = Delete(root->left, temp->data);
+        }
     }
-    //New Way of writing LOGIC using getBalance() function, Delete() can be written in the same manner as
-    //insert as well
-
+ 
+    // If the tree had only one node then return
+    if (root == NULL)
+      return root;
+ 
     // STEP 2: UPDATE HEIGHT OF THE CURRENT NODE
-  /*  root->height = Max(Height(root->left), Height(root->right)) + 1;
+    root->height = Max(Height(root->left), Height(root->right)) + 1;
  
     // STEP 3: GET THE BALANCE FACTOR OF THIS NODE (to check whether
     //  this node became unbalanced)
-    int balance = getBalance(root);	//Will calculate Balance Factor for root.
+    int balance = getBalance(root);
  
     // If this node becomes unbalanced, then there are 4 cases
  
     // Left Left Case
-    if (balance == 2 && getBalance(root->left) >= 0)		//balance == 2 means left - right == 2 means imbalance in left subtree
-        return SingleRotateLeft(root);							//getBalance(root->left)>=0 means left-subtree is as large as or one greater
- 															// than right subtree. Hence it must be the left-left case.
+    if (balance > 1 && getBalance(root->left) >= 0)
+        return SingleRotateLeft(root);
+ 
     // Left Right Case
     if (balance > 1 && getBalance(root->left) < 0)
-        return DoubleRotateLeftRight(root);
+    {
+        root->left =  SingleRotateRight(root->left);
+        return SingleRotateLeft(root);
+    }
  
     // Right Right Case
     if (balance < -1 && getBalance(root->right) <= 0)
@@ -260,8 +280,11 @@ struct Node* Delete(struct Node* root, int data)
  
     // Right Left Case
     if (balance < -1 && getBalance(root->right) > 0)
-        return DoubleRotateRightLeft(root);
- */
+    {
+        root->right = SingleRotateLeft(root->right);
+        return SingleRotateRight(root);
+    }
+ 
     return root;
 }
 
@@ -306,7 +329,7 @@ int main()
           2    6
     */
  
-    printf("\nPre order traversal after deletion of 10 \n");
+    printf("\nIn order traversal after deletion of 10 \n");
     InOrder(root);
  
     return 0;
