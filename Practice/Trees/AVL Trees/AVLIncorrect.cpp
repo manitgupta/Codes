@@ -134,13 +134,13 @@ struct Node* DoubleRotateRightLeft(struct Node *Z)
 	return Z;
 }
 
-void InOrder(struct Node *root)
+void PreOrder(struct Node *root)
 {
 	if(root)
 	{
-		InOrder(root->left);
 		printf(" %d ",root->data);
-		InOrder(root->right);
+        PreOrder(root->left);
+        PreOrder(root->right);
 	}
 }
 
@@ -203,41 +203,53 @@ struct Node* Delete(struct Node* root, int data)
 {
 // STEP 1: PERFORM STANDARD BST DELETE
  
-    struct Node* temp;
-    //First Step: Find the node to be deleted.
-    if(root == NULL)
+    if (root == NULL)
+        return root;
+ 
+    // If the data to be deleted is smaller than the root's data,
+    // then it lies in left subtree
+    if ( data < root->data )
+        root->left = Delete(root->left, data);
+ 
+    // If the data to be deleted is greater than the root's data,
+    // then it lies in right subtree
+    else if( data > root->data )
+        root->right = Delete(root->right, data);
+ 
+    // if data is same as root's data, then This is the node
+    // to be deleted
+    else
     {
-        printf("\nElement is NOT Present\n");
-    }
-    else if(data < root->data)      //less than root, must be in left subtree
-        root->left = Delete(root->left,data);
-    else if(data > root->data)      //greater than root, must be in right subtree
-        root->right = Delete(root->right,data);
-    else            //Means node to be deleted has been found
-    {
-        if(root->left && root->right)   //Case where node to be deleted has both left and right children.
+        // node with only one child or no child
+        if( (root->left == NULL) || (root->right == NULL) )
         {
-            temp = FindMax(root->left);//InorderPredecessor Function will also work, however it is guarenteed here that InPredecessor will be largest
-            root->data = temp->data;    //element of left subtree (since node to be deleted has a left child)
-            root->left = Delete(root->left,temp->data); //Recursively handle deletion of Max element of left subtree.                            
+            struct Node *temp = root->left ? root->left : root->right;
+ 
+            // No child case
+            if(temp == NULL)
+            {
+                temp = root;
+                root = NULL;
+            }
+            else // One child case
+             *root = *temp; // Copy the contents of the non-empty child
+ 
+            free(temp);
         }
-        else    //Case wwhere node to has 1 or 0 child.
+        else
         {
-            temp = root;                //Make temp eqaul to root and then free it up later.
-            if(root->left == NULL)      //Node with only right child. Stick the right child to the node's parent.
-            {
-                root = root->right;     //Stick child.
-                free(temp);             //free up the original root.
-                return root;
-            }   
-            if(root->right == NULL)     //Another if to handle 0th child case as well.
-            {
-                root = root->left;
-                free(temp);
-                return root;
-            }   
-        }                               
+            // node with two children: Get the inorder predecessor (largest
+            // in the left subtree)
+            struct Node* temp = FindMax(root->left);
+ 
+            // Copy the inorder predecessor's data to this node
+            root->data = temp->data;
+ 
+            // Delete the inorder predecessor
+            root->left = Delete(root->left, temp->data);
+        }
     }
+ 
     // If the tree had only one node then return
     if (root == NULL)
       return root;
@@ -303,7 +315,7 @@ int main()
     */
  
   	printf("In order traversal of the constructed AVL tree is \n");
-  	InOrder(root);
+  	PreOrder(root);
  
   	root = Delete(root, 10);
  
@@ -318,7 +330,7 @@ int main()
     */
  
     printf("\nIn order traversal after deletion of 10 \n");
-    InOrder(root);
+    PreOrder(root);
  
     return 0;
 }
