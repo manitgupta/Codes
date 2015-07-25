@@ -76,6 +76,48 @@ int GetMax(heap *h)
 	return h->array[0];
 }
 
+//Heapify the element at Location i
+void Heapify(heap *h, int i)
+{
+	//Percolate Down Method.
+	int l,r,max,temp;
+	l = LeftChild(h,i);
+	r = RigtChild(h,i);
+	max = i;
+	if(l!=-1 && h->array[l] > h->array[i])		//Find out which of [i],[r],[l] is maximum and find it's position.
+		max = l;
+	if(r!=-1 && h->array[r] > h->array[max])
+		max = r;
+	//If left or right is greater, perform swap with [max]
+	if(max!=i)
+	{
+		temp = h->array[max];
+		h->array[max] = h->array[i];
+		h->array[i] = temp;
+	}
+	//Recursively the max position element since, swapping may have distrubed the heap property at that position.
+	Heapify(h,max);
+}
+
+int DeleteMax(heap *h)
+{
+	int temp;
+	if(h->count == -1)		//handle edge case.
+		return;
+	//Copy value of root into a temp location.
+	temp = h->array[0];			
+	//Copy last nodes' value into the root.
+	h->array[0] = h->array[h->count-1];
+	//Remove the copied last node from the heap.		
+	h->count == -1;
+	//Call Heapify on the root to convert to heap. Since Heapify is called on root, the entire tree will be converted
+	//to a heap.
+	Heapify(h,0);
+	//return deleted element
+	return temp;		
+}
+
+
 int main()
 {
 	return 0;
