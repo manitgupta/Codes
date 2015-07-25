@@ -254,11 +254,13 @@ struct Node* Delete(struct Node* root, int data)
     // If this node becomes unbalanced, then there are 4 cases
  
     // Left Left Case
-    if (balance > 1 && root->left->data)
+    //getBalance(root->left) >= 0 means that height of left subtree is greater, than Case 1
+    if (balance > 1 && getBalance(root->left) >= 0) 
         return SingleRotateLeft(root);
  
     // Left Right Case
-    if (balance > 1 && data > root->left->data)
+    //getBalance(root->left) < 0 means that height of left subtree is smaller, than Case 2
+    if (balance > 1 && getBalance(root->left) < 0)
     {
         // root->left =  SingleRotateRight(root->left);
         // return SingleRotateLeft(root);
@@ -266,11 +268,11 @@ struct Node* Delete(struct Node* root, int data)
     }
  
     // Right Right Case
-    if (balance < -1 && data > root->right->data)
+    if (balance < -1 && getBalance(root->right) <= 0)
         return SingleRotateRight(root);
  
     // Right Left Case
-    if (balance < -1 && data < root->right->data)
+    if (balance < -1 && getBalance(root->right) > 0)
     {
         // root->right = SingleRotateLeft(root->right);
         // return SingleRotateRight(root);
@@ -309,7 +311,7 @@ int main()
   	printf("Preorder traversal of the constructed AVL tree is \n");
   	PreOrder(root);
  
-  	root = Delete(root, 11);
+  	root = Delete(root, 10);
  
     /* The AVL Tree after deletion of 10
             1
