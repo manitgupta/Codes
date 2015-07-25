@@ -1,0 +1,11 @@
+Always Remember That First Standard BST insertions and deletions are done
+and after that Rotations are done.
+
+This means one thing is for sure, first half of both Insert and Delete of AVL Trees will have the exact same code
+as the BST Insert and Delete. The next part will be for the rotations.
+
+
+AVL Insert/Delete:
+	First: 	Perform BST Insert/Delete
+	Second: Update the Height of Ancestor/Current Nodes
+	Third: 	Write conditions for rotations for the 4 possible cases.

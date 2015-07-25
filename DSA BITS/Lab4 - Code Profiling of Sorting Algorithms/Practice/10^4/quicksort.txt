@@ -1,0 +1,32 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+ no time accumulated
+
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+  0.00      0.00     0.00        1     0.00     0.00  printData
+  0.00      0.00     0.00        1     0.00     0.00  quicksort
+  0.00      0.00     0.00        1     0.00     0.00  readData
+
+			Call graph
+
+
+granularity: each sample hit covers 2 byte(s) no time propagated
+
+index % time    self  children    called     name
+                0.00    0.00       1/1           main [10]
+[1]      0.0    0.00    0.00       1         printData [1]
+-----------------------------------------------
+                               13414             quicksort [2]
+                0.00    0.00       1/1           main [10]
+[2]      0.0    0.00    0.00       1+13414   quicksort [2]
+                               13414             quicksort [2]
+-----------------------------------------------
+                0.00    0.00       1/1           main [10]
+[3]      0.0    0.00    0.00       1         readData [3]
+-----------------------------------------------
+
+Index by function name
+
+   [1] printData               [2] quicksort               [3] readData
