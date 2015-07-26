@@ -83,9 +83,13 @@ void Heapify(heap *h, int i)
 	int l,r,max,temp;
 	l = LeftChild(h,i);
 	r = RigtChild(h,i);
-	max = i;
+	//base case when both left and right child do not exist.
+	if(l== -1 && r== -1)
+		return;
 	if(l!=-1 && h->array[l] > h->array[i])		//Find out which of [i],[r],[l] is maximum and find it's position.
 		max = l;
+	else
+		max = i;
 	if(r!=-1 && h->array[r] > h->array[max])
 		max = r;
 	//If left or right is greater, perform swap with [max]
@@ -103,7 +107,7 @@ int DeleteMax(heap *h)
 {
 	int temp;
 	if(h->count == -1)		//handle edge case.
-		return;
+		return INT_MIN;
 	//Copy value of root into a temp location.
 	temp = h->array[0];			
 	//Copy last nodes' value into the root.
@@ -117,8 +121,84 @@ int DeleteMax(heap *h)
 	return temp;		
 }
 
+void ResizeHeap(heap *h)
+{
+	int *array_old = h->array;
+	h->array = (int*)malloc(sizeof(int)*h->capacity*2);
+	if(h->array == NULL)
+	{
+		printf("Memory Error\n");
+		return;
+	}
+	for (int i = 0; i < h->capacity; ++i)
+	{
+		printf("%d : %d\n",h->array[i],array_old[i]);
+		h->array[i] = array_old[i];
+	}
+	h->capacity*=2;
+	free(array_old);
+}
+
+void Insert(heap *h, int data)
+{
+	int i;
+	//Check if the tree is full/has reached capacity.
+	if(h->count == h->capacity)
+		ResizeHeap(h);
+	h->count++;
+	// Insert new element at the last position.
+	i = h->count-1;
+	//Handle Base case when first element is inserted.
+	if (i == 0)
+	{
+		h->array[i] = data;
+		return;
+	}
+	//Percolate up technique, keep comparing inserted last element with it's parent until parent is greater.
+	while(i>=0 && data > h->array[(i-1)/2])
+	{
+		h->array[i] = h->array[(i-1)/2];
+		i  = (i-1)/2; 
+	}
+	h->array[i] = data;
+}
+
+void printHeap(heap *h)
+{
+	for (int i = 0; i < h->count; ++i)
+	{
+		printf(" %d",h->array[i]);
+	}
+	printf("\n");
+}
+
+void DestroyHeap(heap *h)
+{
+	if(h==NULL)
+		return;
+	free(h>array);
+	free(h);
+	//h= NULL;
+}
 
 int main()
 {
+	heap *h = CreateHeap(12,0);
+	Insert(h,31);
+	Insert(h,10);
+	Insert(h,16);
+	Insert(h,9);
+	Insert(h,8);
+	Insert(h,14);
+	Insert(h,12);
+	Insert(h,3);
+	Insert(h,1);
+	Insert(h,5);
+	Insert(h,7);
+	Insert(h,19);
+	printHeap(h);
+	
+	// Heapify(h,1);
+	// printHeap(h);
 	return 0;
 }
