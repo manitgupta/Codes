@@ -113,7 +113,8 @@ int DeleteMax(heap *h)
 	//Copy last nodes' value into the root.
 	h->array[0] = h->array[h->count-1];
 	//Remove the copied last node from the heap.		
-	h->count == -1;
+	h->count--;
+	//Heapify the new first element.
 	Heapify(h,0);
 	//return deleted element
 	return temp;		
@@ -193,12 +194,27 @@ void BuildHeap(heap *h, int A[], int n)
 	}
 	h->count = n;
 	printHeap(h);
+	//Start from the parent of the last leaf node i.e. last non-leaf node and keep heapifying it uptill root.
 	for (int i = (n-2)/2; i >=0; i--)
 	{
 		//printf("%d\n",i);
 		Heapify(h,i);
 	}
 }
+//Requires BuildHeap,DeleteMax,ResizeHeap,Heapify as helper functions.
+void Heapsort(heap *h, int A[], int n)
+{
+	//Convert the Array into a Heap First (Max/Min)
+	BuildHeap(h,A,n);
+	//Pop the top element from the heap
+	for (int i = 0; i < n; ++i)
+	{
+		//Print the Max element and Heapify the rest via DeleteMax
+		printf("%d ",DeleteMax(h));
+	}
+}
+
+#ifdef _DEBUG
 int main()
 {
 	heap *h = CreateHeap(12,0);
@@ -216,10 +232,12 @@ int main()
 	// Insert(h,19);
 
 	int A[12] = {1,5,14,2,10,21,18,3,11,8,7,12};
-	BuildHeap(h,A,12);
+	Heapsort(h,A,12);
+	//BuildHeap(h,A,12);
 	printHeap(h);
 	
 	// Heapify(h,1);
 	// printHeap(h);
 	return 0;
 }
+#endif
