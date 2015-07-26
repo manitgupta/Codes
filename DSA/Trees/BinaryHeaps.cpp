@@ -98,9 +98,9 @@ void Heapify(heap *h, int i)
 		temp = h->array[max];
 		h->array[max] = h->array[i];
 		h->array[i] = temp;
+		Heapify(h,max);
 	}
-	//Recursively the max position element since, swapping may have distrubed the heap property at that position.
-	Heapify(h,max);
+	//Recursively heapify the max position element since, swapping may have distrubed the heap property at that position.
 }
 
 int DeleteMax(heap *h)
@@ -114,8 +114,6 @@ int DeleteMax(heap *h)
 	h->array[0] = h->array[h->count-1];
 	//Remove the copied last node from the heap.		
 	h->count == -1;
-	//Call Heapify on the root to convert to heap. Since Heapify is called on root, the entire tree will be converted
-	//to a heap.
 	Heapify(h,0);
 	//return deleted element
 	return temp;		
@@ -176,26 +174,49 @@ void DestroyHeap(heap *h)
 {
 	if(h==NULL)
 		return;
-	free(h>array);
+	free(h->array);
 	free(h);
 	//h= NULL;
 }
 
+void BuildHeap(heap *h, int A[], int n)
+{
+	if(h==NULL)
+		return;
+	//The current heap capacity maybe several times smaller than input array
+	while(n > h->capacity)
+		ResizeHeap(h);
+	//Copy over elements from Array to Heap Array.
+	for (int i = 0; i < n; ++i)
+	{
+		h->array[i] = A[i];
+	}
+	h->count = n;
+	printHeap(h);
+	for (int i = (n-2)/2; i >=0; i--)
+	{
+		//printf("%d\n",i);
+		Heapify(h,i);
+	}
+}
 int main()
 {
 	heap *h = CreateHeap(12,0);
-	Insert(h,31);
-	Insert(h,10);
-	Insert(h,16);
-	Insert(h,9);
-	Insert(h,8);
-	Insert(h,14);
-	Insert(h,12);
-	Insert(h,3);
-	Insert(h,1);
-	Insert(h,5);
-	Insert(h,7);
-	Insert(h,19);
+	// Insert(h,31);
+	// Insert(h,10);
+	// Insert(h,16);
+	// Insert(h,9);
+	// Insert(h,8);
+	// Insert(h,14);
+	// Insert(h,12);
+	// Insert(h,3);
+	// Insert(h,1);
+	// Insert(h,5);
+	// Insert(h,7);
+	// Insert(h,19);
+
+	int A[12] = {1,5,14,2,10,21,18,3,11,8,7,12};
+	BuildHeap(h,A,12);
 	printHeap(h);
 	
 	// Heapify(h,1);
