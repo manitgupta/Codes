@@ -1,0 +1,267 @@
+[
+	{
+		"args":
+		{
+			"characters": "#include"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": " <stdio."
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": "h."
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": "\n#"
+		},
+		"command": "insert"
+	},
+	{
+		"args": null,
+		"command": "left_delete"
+	},
+	{
+		"args": null,
+		"command": "left_delete"
+	},
+	{
+		"args": null,
+		"command": "left_delete"
+	},
+	{
+		"args":
+		{
+			"characters": ">"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": "\n#include"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": " <stdlin."
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": "h"
+		},
+		"command": "insert"
+	},
+	{
+		"args": null,
+		"command": "left_delete"
+	},
+	{
+		"args": null,
+		"command": "left_delete"
+	},
+	{
+		"args": null,
+		"command": "left_delete"
+	},
+	{
+		"args":
+		{
+			"characters": "b.h>"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": "\n#include"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": " <string."
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": "h>"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": "\n#include"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": " <math."
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": "h."
+		},
+		"command": "insert"
+	},
+	{
+		"args": null,
+		"command": "left_delete"
+	},
+	{
+		"args":
+		{
+			"characters": ">"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": "\n\n"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": "int"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": " main"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"contents": "($0)"
+		},
+		"command": "insert_snippet"
+	},
+	{
+		"args":
+		{
+			"by": "characters",
+			"forward": true
+		},
+		"command": "move"
+	},
+	{
+		"args":
+		{
+			"characters": "\n"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"contents": "{$0}"
+		},
+		"command": "insert_snippet"
+	},
+	{
+		"args":
+		{
+			"file": "Packages/Default/Add Line in Braces.sublime-macro"
+		},
+		"command": "run_macro_file"
+	},
+	{
+		"args":
+		{
+			"characters": "retirn"
+		},
+		"command": "insert"
+	},
+	{
+		"args": null,
+		"command": "left_delete"
+	},
+	{
+		"args": null,
+		"command": "left_delete"
+	},
+	{
+		"args":
+		{
+			"characters": "u"
+		},
+		"command": "insert"
+	},
+	{
+		"args": null,
+		"command": "left_delete"
+	},
+	{
+		"args": null,
+		"command": "left_delete"
+	},
+	{
+		"args":
+		{
+			"characters": "urn"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"characters": " 0;"
+		},
+		"command": "insert"
+	},
+	{
+		"args":
+		{
+			"by": "lines",
+			"forward": false
+		},
+		"command": "move"
+	},
+	{
+		"args":
+		{
+			"by": "lines",
+			"forward": false
+		},
+		"command": "move"
+	},
+	{
+		"args":
+		{
+			"by": "lines",
+			"forward": false
+		},
+		"command": "move"
+	}
+]

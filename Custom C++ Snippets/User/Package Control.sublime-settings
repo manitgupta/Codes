@@ -1,0 +1,19 @@
+{
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"All Autocomplete",
+		"C Improved",
+		"C++ Snippets",
+		"Default File Type",
+		"Git",
+		"GitGutter",
+		"Glue",
+		"MarkdownEditing",
+		"Package Control",
+		"Terminal",
+		"Theme - Centurion"
+	]
+}

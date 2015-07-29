@@ -1,0 +1,4 @@
+[
+	{"keys": ["shift+alt+c"], "command": "run_macro_file", "args":{"file":"Packages/User/C-syntax.sublime-macro"}},
+	{"keys": ["shift+ctrl+;"], "command": "run_macro_file", "args":{"file":"Packages/User/semicolon-newline.sublime-macro"}}
+]
