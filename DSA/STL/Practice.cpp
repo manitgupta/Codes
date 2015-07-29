@@ -41,7 +41,7 @@ using namespace std;
 int main() 
 {
     std::vector<int> v;
-    for (int i = 0; i < 100; ++i)
+    for (int i = 0; i < 5; ++i)
     {
      	v.push_back(rand() % 1000);
     }
@@ -69,6 +69,28 @@ int main()
     {
     	printf("%d ",*it);
     }
+    printf("\n");
 
-    return 0;   
+    //---------EXAMPLE 4---------PRINT ALL POSSIBLE PERMUTATIONS
+    // For printing/traversing all possible combinations, inital vector must be sorted.
+    int count = 0;
+    do
+    {
+        count++;
+    	tr(v2,it)
+    	{
+    		printf("%d ",*it);
+    	}
+        printf("\n");
+    }while(next_permutation(all(v2)));
+    printf("Total No. of Permutations: %d\n",count); 
+
+    //-----EXAMPLE 5-----Sorting function
+    sort(v.rbegin(), v.rend());     //rbegin() points to the last element, one less than end() iterator.
+    printf("Sorted Array\n");       //The array is reverse sorted in place.
+    tr(v,it)  
+    {
+        printf("%d ",*it);
+    }
+    return 0;
 }
