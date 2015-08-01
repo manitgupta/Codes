@@ -1,8 +1,7 @@
 # Codes
 General Stuff
 
-Hey! 
-Multipurpose repository for pushing all sorts of code I write.
+C++ Custom Snippets are some Sublime Text Snippets I wrote to improve workflow :D
 
 Conventions I follow in my code:
 
