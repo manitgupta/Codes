@@ -9,21 +9,21 @@ using namespace std;
 int main()
 {
 	vector<int> v;
-	for (int i = 0; i < 25; ++i)
+	for (int i = 0; i < 250; ++i)
 	{
 		v.push_back(rand()%10);
 	}
 	
-	for (int i = 0; i < 25; ++i)
-	{
-		printf("%d ",v[i]);
-	}
+	// for (int i = 0; i < 25; ++i)
+	// {
+	// 	printf("%d ",v[i]);
+	// }
 
 	int maximum = *max_element(v.begin(),v.end());
 	printf("Max = %d\n",maximum);
 	std::vector<int> count(maximum);
 
-	for (int i = 0; i < 25; ++i)
+	for (int i = 0; i < 250; ++i)
 	{
 		count[v[i]]++;
 		printf("Count[%d] =  %d \n",v[i],count[v[i]]);

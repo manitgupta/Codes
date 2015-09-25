@@ -50,6 +50,20 @@ void Selection(vector<int>& A,int n)
 	}
 }
 
+void Insertion(vector<int>& A,int n)
+{
+	for (int i = 1; i < n; ++i)
+	{
+		int key = A[i];
+		int j = i-1;
+		while(j>=0 && A[j] > key)
+		{
+			A[j+1] = A[j];
+			j--;
+		}
+		A[j+1] = key;
+	}
+}
 
 
 int main()
@@ -60,7 +74,8 @@ int main()
 		A.push_back(rand()%1000);
 	}
 	//BubbleSort(A,100);
-	Selection(A,100);
+	//Selection(A,100);
+	Insertion(A,100);
 	for (int i = 0; i < 100; ++i)
 	{
 		cout<<A[i]<<" ";
