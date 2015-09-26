@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/wait.h>
 int main(int argc, char* argv[]) 
 {
 	pid_t childpid = 0;
@@ -15,5 +16,7 @@ int main(int argc, char* argv[])
 		if(childpid = fork())
 			break;
 	fprintf(stderr, "i: %d process ID: %ld parent ID: %ld child ID: %ld\n", i, (long)getpid(),(long) getppid(), (long)childpid);
+	//sleep(30);
+	wait(NULL);
 	return 0;
 }

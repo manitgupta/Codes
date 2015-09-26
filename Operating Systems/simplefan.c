@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/wait.h>
+
 int main(int argc, char* argv[]) 
 {
 	pid_t childpid = 0;
@@ -12,8 +14,10 @@ int main(int argc, char* argv[])
 	}
 	n = atoi(argv[1]);
 	for(i = 1; i < n; i++)
-		if(childpid = fork() <= 0)
+		if((childpid = fork()) <= 0)	//chlidpid gets 0 when a child is created from parent process's fork() call.
 			break;
+	//wait(NULL);
 	fprintf(stderr, "i: %d process ID: %ld parent ID: %ld child ID: %ld\n", i, (long)getpid(),(long) getppid(), (long)childpid);
+	sleep(30);
 	return 0;
 }
