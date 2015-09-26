@@ -14,7 +14,7 @@ void main()
 	if (forkresult !=0)
 	{
 		printf("%ld is the father. It's child process is: %ld\n",(long)getpid(),(long)forkresult);
-		printf("Now I will wait for his execution\n");
+		printf("Now I will wait for his execution and then terminate myself as well\n");
 		wait(NULL);	//This ensures that it waits for it's child execution to complete
 		//and then exit, without this, the parent may finish earlier than child and it
 		//may become a zombie process.
