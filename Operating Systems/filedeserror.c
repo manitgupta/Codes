@@ -14,5 +14,7 @@ int main()
 			break;
 		}
 	}
+	//Error occurs at the point in loop when all 1024 file descriptors have been
+	//allocated. Remember 3 are already reserved.
 	return 0;		
 }

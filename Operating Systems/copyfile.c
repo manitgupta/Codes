@@ -17,11 +17,11 @@ int main(int argc, char **argv)
 		printf("Error Opening %s\n",pathname);
 		return 1;
 	}
-	while(1)
-	{
+	//while(1)
+	//{
 		read_bytes = read(fd,buf,BUFFERSIZE);	//read from file and stored in buf, number of chars read stored in read_bytes.
-		if(!read_bytes)
-			break;
+		//if(!read_bytes)
+		//	break;
 		if(read_bytes == -1)
 		{
 			printf("Error Reading %s\n",pathname);
@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 			printf("Error writing to new.txt\n");
 			return 3;
 		}
-	}
+	//}
 	close(fd);
 	close(fd1);
 	return 0;
