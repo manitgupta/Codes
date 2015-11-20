@@ -1,0 +1,4 @@
+When a process is forked AFTER a file is opened, both the child and the parent process point to the same file DESCRIPTION and have the same file descriptor, hence they DO NOT overwrite each other.
+Refernce : http://stackoverflow.com/questions/11733481/can-anyone-explain-a-simple-description-regarding-file-descriptor-after-fork
+
+When a process is forked BEFORE a file is opened, both the child and the parent get the same file descriptor in THEIR respective file descriptor tables BUT the file DESCRIPTION is different now and hence the file gets overwritten.

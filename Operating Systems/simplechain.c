@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 		fprintf(stderr, "Usage %s processes\n", argv[0]);
 		return 1;
 	}
-	n = atoi(argv[1]);
+	n = atoi(argv[1]);	//convert entered number to int..
 	for(i = 1; i < n; i++)
 		if(childpid = fork())
 			break;
