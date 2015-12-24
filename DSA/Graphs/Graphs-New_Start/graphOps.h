@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+//-----------------HEADER FILE ONLY INITIALIZES THE GRAPH, IT DOES-----------
+//-----------------ALLOCATE ANY MEMORY FOR IT, DO THAT IN MAIN-------------
+
 #define MAXV 1000	//Max number of vertices
 
 typedef struct edgenode{
@@ -21,7 +24,6 @@ typedef struct graph{
 void initialize_graph(graph *g,bool directed)
 {
 	int i;
-	printf("Intialize started...\n");
 	g->nvertices=0;
 	g->nedges=0;
 	g->directed=directed;
@@ -52,7 +54,7 @@ void read_graph(graph *g, bool directed)
 {
 	int i,m; //counter,no. of edges
 	int x,y; //vertices in edge(x,y); means y is in x's adjacency list
-	printf("Starting Initialization...\n");
+
 	initialize_graph(g,directed);
 	
 	scanf("%d %d",&(g->nvertices),&m);	//Input no. of vertices and edges.
@@ -80,10 +82,4 @@ void print_graph(graph *g)
 		}
 		printf("\n");
 	}
-}
-
-void main()
-{
-	graph *g = (graph*)malloc(sizeof(graph));
-	read_graph(g,false);
 }

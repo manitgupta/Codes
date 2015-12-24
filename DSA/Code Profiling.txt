@@ -1,0 +1,5 @@
+Steps for Code Profiling
+
+1) g++ -pg fibo.cpp -o fibo
+2) ./fibo
+3) gprof -p -b fibo gmon.out > fibotime.txt
