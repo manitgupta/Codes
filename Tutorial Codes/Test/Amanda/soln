@@ -1,0 +1,15 @@
+Q1:
+cut -d , -f 3 text.csv | sort | grep -w 'MALE' | wc -l
+cut -d , -f 3 text.csv | sort | grep -w 'MALE' | wc -l
+
+Q2:
+cut -d , -f 2,3 text.csv | sort | grep 'FEMALE'|grep 'WHITE'|wc -l
+cut -d , -f1-6 text.csv | sort | grep 'FEMALE'|grep 'WHITE'| sort -t ',' -k5 -nr > females.txt
+
+Q3:
+cut -d , -f4 text.csv | sort| uniq -c |sort -nr
+cut -d , -f3,4 text.csv | sort| uniq -c |sort -nr|grep 'FEMALE'
+cut -d , -f3,4 text.csv | sort| uniq -c |sort -nr|grep -w 'MALE'
+cut -d , -f3,4 text.csv | sort| uniq -c |sort -nr|grep -w 'MALE' | head -n 3
+cut -d , -f3,4 text.csv | sort| uniq -c |sort -nr|grep -w 'MALE' | head -n 3
+

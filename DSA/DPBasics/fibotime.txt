@@ -1,9 +1,0 @@
-Flat profile:
-
-Each sample counts as 0.01 seconds.
-  %   cumulative   self              self     total           
- time   seconds   seconds    calls  ms/call  ms/call  name    
- 95.98      1.54     1.54       40    38.39    38.39  fib(int)
-  5.05      1.62     0.08                             frame_dummy
-  0.00      1.62     0.00        1     0.00     0.00  _GLOBAL__sub_I__Z3fibi
-  0.00      1.62     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
