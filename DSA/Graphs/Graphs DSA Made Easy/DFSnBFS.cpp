@@ -17,7 +17,7 @@ class Graph
 {
 	int V;
 	list<int> *adj;	//Pointer to array containing adjacency lists
-	void DFSUtil(int v, bool visited[]);
+	void DFSUtil(int v, bool visited[]);	//private since this will never be directly called.
 public:
 	Graph(int V);	//Constructor which sets the number of vertices in the Graph.
 	void addEdge(int src, int dest);
@@ -147,6 +147,7 @@ int main()
     #ifdef CONNECTED_GRAPH
     cout << "Following is Depth First Traversal (starting from vertex 2) \n";
     g.DFS(2);
+    cout<<endl;
     cout << "Following is Breadth First Traversal (starting from vertex 2) \n";
     g.BFS(2);
     #endif

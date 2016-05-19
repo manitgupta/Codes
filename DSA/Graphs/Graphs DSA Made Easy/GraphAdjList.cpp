@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// #define DIRECTED
+ #define DIRECTED
 
 //Uncomment line 4 for directed Graph.
 
@@ -82,15 +82,22 @@ void printGraph(struct Graph *G)
 int main()
 {
     // create the graph given in above fugure
-    int V = 5;
+    int V = 6;
     struct Graph* graph = createGraph(V);
-    addEdge(graph, 0, 1);
-    addEdge(graph, 0, 4);
-    addEdge(graph, 1, 2);
-    addEdge(graph, 1, 3);
-    addEdge(graph, 1, 4);
+    // addEdge(graph, 0, 1);
+    // addEdge(graph, 0, 4);
+    // addEdge(graph, 1, 2);
+    // addEdge(graph, 1, 3);
+    // addEdge(graph, 1, 4);
+    // addEdge(graph, 2, 3);
+    // addEdge(graph, 3, 4);
+
+    addEdge(graph, 5, 2);
+    addEdge(graph, 5, 0);
+    addEdge(graph, 4, 0);
+    addEdge(graph, 4, 1);
     addEdge(graph, 2, 3);
-    addEdge(graph, 3, 4);
+    addEdge(graph, 3, 1);
  
     // print the adjacency list representation of the above graph
     printGraph(graph);
