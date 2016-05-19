@@ -8,6 +8,7 @@ using namespace std;
 
 // CONNECTED_GRAPH if graph is connected
 // DISCONNECTED_GRAPH if graph as disjoint component
+//Don't enable both at once.
 
 #define CONNECTED_GRAPH		
 //#define DISCONNECTED_GRAPH
@@ -22,7 +23,8 @@ public:
 	void addEdge(int src, int dest);
 
 	#ifdef CONNECTED_GRAPH
-	void DFS(int v); //DFPS traversal of the vertices reachable from v.	//def in connected graph case
+	void DFS(int v); //DFS traversal of the vertices reachable from v.	//def in connected graph case
+	void BFS(int s); //BFS traversal of the vertices reachable from s.
 	#endif
 	#ifdef DISCONNECTED_GRAPH
 	void DFS();
@@ -72,6 +74,37 @@ void Graph::DFS(int v)
 	DFSUtil(v, visited);	//recursive function to print DFS traversal.
 	//This functions performs Depth First Searching and backtrack when a "dead end" is reached.
 }
+
+void Graph::BFS(int s)
+{
+	bool *visited = new bool[V];
+	for (int i = 0; i < V; ++i)
+	{
+		visited[i] = false;
+	}
+	list<int> queue;
+	//Mark current node as visited and enqueue it.
+	visited[s] = true;
+	queue.push_back(s);
+	list<int>::iterator i;
+
+	//iterator i is used to get adjacent vertices of a vertex.
+	while (!queue.empty())
+	{
+		s = queue.front();
+		cout<<s<<" ";
+		queue.pop_front();
+		for(i = adj[s].begin(); i != adj[s].end(); i++)
+		{
+			if (!visited[*i])
+			{
+				visited[*i] = true;
+				queue.push_back(*i);		//if the vertex is not visited, then enqueue it and mark it visited.
+			}
+		}
+	}
+}
+
 #endif
 
 #ifdef DISCONNECTED_GRAPH
@@ -110,10 +143,12 @@ int main()
     g.addEdge(2, 3);
     g.addEdge(3, 3);
  
-    cout << "Following is Depth First Traversal (starting from vertex 2) \n";
     
     #ifdef CONNECTED_GRAPH
+    cout << "Following is Depth First Traversal (starting from vertex 2) \n";
     g.DFS(2);
+    cout << "Following is Breadth First Traversal (starting from vertex 2) \n";
+    g.BFS(2);
     #endif
 
     #ifdef DISCONNECTED_GRAPH
