@@ -7,10 +7,6 @@
 
 using namespace std;
 
-//for an undirected graph, (adj list with both edges is created)
-// #define UNDIRECTED
-
-
 // CONNECTED_GRAPH if graph is connected
 // DISCONNECTED_GRAPH if graph as disjoint component
 //Don't enable both at once!!
