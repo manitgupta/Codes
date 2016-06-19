@@ -1,0 +1,82 @@
+1a2
+> #include <string.h>
+2a4,20
+> int max(int a, int b)
+> {
+> 	return ( a > b) ? a:b;
+> }
+> //Finds the length of the longest common subsequence.
+> int lcs(char X[], char Y[], int m, int n)
+> {
+> 	if (m == 0 || n == 0)
+> 		return 0;
+> 	if(X[m-1] == Y[n-1])
+> 	{
+> 		printf("Match!\n");
+> 		return 1 + lcs(X,Y,m-1,n-1);	// Call LCS(X[0....m-2], Y[0....n-2])
+> 	}
+> 	else
+> 		return max(lcs(X,Y,m-1,n), lcs(X,Y,m,n-1));
+> }
+4c22,24
+< int lis(int arr[], int n)
+---
+> 
+> 
+> int lcs_dp(char X[], char Y[], int m, int n)
+6,7c26,27
+< 	int len[n];
+< 	len[0] = 1;
+---
+> 	int L[m+1][n+1];
+> 	//L[i][j] contains the length of LCS from X[0...i-1] and Y[0.....j-1]
+9,13c29,30
+< 	int max = -1;
+< 	//set length of all equal to 1
+< 	for(i = 0; i < n; i++)
+< 		len[i] = 1;
+< 	for(i = 1; i < n; i++)
+---
+> 	//base case: when either has length 0 then LCS length is 0.
+> 	for(i = 0; i < m; i++)
+15,19c32,33
+< 		for(j = 0; j < i; j++)
+< 		{
+< 			if(arr[i] > arr[j] && len[i] < len[j] + 1)
+< 				len[i] = len[j] + 1;
+< 		}
+---
+> 		L[i][0] = 0;
+> 		L[0][i] = 0;
+21c35
+< 	for(i = 0; i < n; i++)
+---
+> 	for (i = 1; i <= m; ++i)
+23,24c37,43
+< 		if (max < len[i])
+< 			max = len[i];
+---
+> 		for (j = 1; j <= n; ++j)
+> 		{
+> 			if (X[i] == Y[j])
+> 				L[i][j] = 1 + L[i-1][j-1];
+> 			else
+> 				L[i][j] = max(L[i-1][j], L[i][j-1]);
+> 		}
+26c45
+< 	return max;
+---
+> 	return L[m][n];
+30a50,51
+> 	char X[] = "AGGTAB";
+> 	char Y[] = "GXTXAYB";
+32,35c53,56
+<     int arr[] = { 10, 22, 9, 33, 21, 50, 41, 60 };
+<     int n = sizeof(arr)/sizeof(arr[0]);
+<     int ans = lis(arr, n);
+<     printf("ans = %d\n",ans);
+---
+> 	int m = strlen(X);
+> 	int n = strlen(Y);
+> 	int ans = lcs_dp(X,Y,m,n);
+> 	printf("Length = %d\n", ans);
